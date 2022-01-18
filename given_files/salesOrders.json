@@ -1,0 +1,160 @@
+{
+	"salesOrders": {
+		"SO-EU-0000053": {
+			"dateCreated": "2020-07-22T15:13:19+01:00",
+			"salesChannel": "projectsales",
+			"isoCurrency": "EUR",
+			"subtotal": 1319.96,
+			"discountAmt": 197.99,
+			"shipping": 0.00,
+			"taxes": {
+				"21% VAT": 194.72
+			},
+			"taxType": "incl",
+			"total": 1121.97,
+			"lineItems": {
+				"WIDGET001": 4
+			},
+			"fulfillments": {
+				[0, "Amsterdam", "NL", "UPS", "1Z1234567890112", "2020-07-23T17:41:10+01:00"]
+			},
+			"payments": {
+				[0, "creditcard", 1121.97, "2020-07-22T15:14:08+01:00"]
+			}
+		},
+		"SO-EU-0000054": {
+			"dateCreated": "2020-07-26T11:09:22+01:00",
+			"salesChannel": "retail",
+			"isoCurrency": "EUR",
+			"subtotal": 50079.13,
+			"discountAmt": 0.00,
+			"shipping": 0.00,
+			"taxes": {
+				"20% VAT": 0.00
+			},
+			"taxType": "exempt",
+			"total": 50079.13,
+			"lineItems": {
+				"PL-WIDGET001": 1,
+				"MC-WIDGET001": 10
+			},
+			"fulfillments": {
+				[0, "Marseilles", "FR", "Dekker", null, "2020-07-29T17:22:18+01:00"],
+				[1, "Marseilles", "FR", "UPS", "1Z1234567890223", "2020-07-26T17:50:38+01:00"]
+			},
+			"payments": {
+				[0, "creditcard", 5007.91, "2020-07-26T11:10:03+01:00"],
+				[1, "wirepayment", 45071.22, "2020-08-26T14:22:01+01:00"],
+			}
+		},
+		"SO-EU-0000055": {
+			"dateCreated": "2020-08-01T11:15:22+01:00",
+			"salesChannel": "retail",
+			"isoCurrency": "EUR",
+			"subtotal": 128780.60,
+			"discountAmt": 0.00,
+			"shipping": 0.00,
+			"taxes": {
+				"20% VAT": 0.00
+			},
+			"taxType": "exempt",
+			"total": 128780.60,
+			"lineItems": {
+				"PL-WIDGET001": 4
+			},
+			"fulfillments": {
+				[0, "Berlin", "DE", "Dekker", null, "2020-08-05T18:31:04+01:00"]
+			},
+			"payments": {}
+		},
+		"SO-EU-77922EU": {
+			"dateCreated": "2020-08-22T15:13:19+01:00",
+			"salesChannel": "nanoleafshopeu",
+			"isoCurrency": "EUR",
+			"subtotal": 1319.96,
+			"discountAmt": 197.99,
+			"shipping": 0.00,
+			"taxes": {
+				"21% VAT": 194.72
+			},
+			"taxType": "incl",
+			"total": 1121.97,
+			"lineItems": {
+				"WIDGET001": 4
+			},
+			"fulfillments": {
+				[0, "Barcelona", "ES", "UPS", "1Z1234567890684", "2020-08-23T17:05:17+01:00"]
+			},
+			"payments": {
+				[0, "creditcard", 1121.97, "2020-08-22T15:14:08+01:00"]
+			}
+		},
+		"SO-UK-27126UK": {
+			"dateCreated": "2020-09-22T15:14:17+00:00",
+			"salesChannel": "nanoleafshopuk",
+			"isoCurrency": "GBP",
+			"subtotal": 1159.96,
+			"discountAmt": 0.00,
+			"shipping": 0.00,
+			"taxes": {
+				"20% VAT": 193.33
+			},
+			"taxType": "incl",
+			"total": 1159.96,
+			"lineItems": {
+				"WIDGET001": 4
+			},
+			"fulfillments": {
+				[0, "Thames-Upon-Perth", "GB", "UPS", "1Z1234567890992", "2020-09-23T18:05:17+00:00"]
+			},
+			"payments": {
+				[0, "creditcard", 1159.96, "2020-09-22T15:14:29+00:00"]
+			}
+		},
+		"SO-CA-0000098": {
+			"dateCreated": "2020-09-23T18:14:17-05:00",
+			"salesChannel": "retail",
+			"isoCurrency": "USD",
+			"subtotal": 235845.16,
+			"discountAmt": 0.00,
+			"shipping": 0.00,
+			"taxes": {},
+			"taxType": "exempt",
+			"total": 235845.16,
+			"lineItems": {
+				"MC-WIDGET003": 10,
+				"PL-WIDGET001": 6
+			},
+			"fulfillments": {
+				[0, "Louisville", "US", "UPSFreight", "1Z1234567891445", "2020-09-30T10:05:17-05:00"]
+			},
+			"payments": {
+				[0, "wirepayment", 235845.16, "2020-11-22T09:21:48-05:00"]
+			}
+		},
+		"SO-CA-0000098": {
+			"dateCreated": "2020-09-28T08:14:17-08:00",
+			"salesChannel": "nanoleafshopcanada",
+			"isoCurrency": "CAD",
+			"subtotal": 569.98,
+			"discountAmt": 0.00,
+			"shipping": 0.00,
+			"taxes": {
+				"GST": 28.50,
+				"PST-BC": 45.60
+			},
+			"taxType": "excl",
+			"total": 644.08,
+			"lineItems": {
+				"WIDGET003": 1,
+				"WIDGET001": 1
+			},
+			"fulfillments": {
+				[0, "Vernon", "CA", "CanadaPost-Expedited", "4003499811234", "2020-09-29T17:05:17-08:00"]
+			},
+			"payments": {
+				[0, "creditcard", 644.08, "2020-09-28T08:14:33-08:00"]
+			}
+		}
+	}
+}

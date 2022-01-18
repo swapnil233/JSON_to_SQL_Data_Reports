@@ -1,0 +1,264 @@
+{
+	"marketingData": {
+		"week1": {
+			"dateCreated": "2020-01-03T00:00:00-05:00",
+			"webVisitors": 20000,
+			"prClippings": 1
+		},
+		"week2": {
+			"dateCreated": "2020-01-10T00:00:00-05:00",
+			"webVisitors": 50000,
+			"prClippings": 3
+		},
+		"week3": {
+			"dateCreated": "2020-01-17T00:00:00-05:00",
+			"webVisitors": 40000,
+			"prClippings": 0
+		},
+		"week4": {
+			"dateCreated": "2020-01-24T00:00:00-05:00",
+			"webVisitors": 20000,
+			"prClippings": 0
+		},
+		"week5": {
+			"dateCreated": "2020-01-31T00:00:00-05:00",
+			"webVisitors": 80000,
+			"prClippings": 8
+		},
+		"week6": {
+			"dateCreated": "2020-01-31T00:00:00-05:00",
+			"webVisitors": 80000,
+			"prClippings": 8
+		},
+		"week7": {
+			"dateCreated": "2020-02-07T00:00:00-05:00",
+			"webVisitors": 50000,
+			"prClippings": 2
+		},
+		"week8": {
+			"dateCreated": "2020-02-14T00:00:00-05:00",
+			"webVisitors": 50000,
+			"prClippings": 3
+		},
+		"week9": {
+			"dateCreated": "2020-02-21T00:00:00-05:00",
+			"webVisitors": 90000,
+			"prClippings": 7
+		},
+		"week10": {
+			"dateCreated": "2020-02-28T00:00:00-05:00",
+			"webVisitors": 50000,
+			"prClippings": 2
+		},
+		"week11": {
+			"dateCreated": "2020-03-07T00:00:00-05:00",
+			"webVisitors": 60000,
+			"prClippings": 3
+		},
+		"week12": {
+			"dateCreated": "2020-03-14T00:00:00-05:00",
+			"webVisitors": 20000,
+			"prClippings": 0
+		},
+		"week13": {
+			"dateCreated": "2020-03-21T00:00:00-05:00",
+			"webVisitors": 50000,
+			"prClippings": 0
+		},
+		"week14": {
+			"dateCreated": "2020-03-28T00:00:00-05:00",
+			"webVisitors": 40000,
+			"prClippings": 0
+		},
+		"week15": {
+			"dateCreated": "2020-04-04T00:00:00-05:00",
+			"webVisitors": 50000,
+			"prClippings": 1
+		},
+		"week16": {
+			"dateCreated": "2020-04-11T00:00:00-05:00",
+			"webVisitors": 60000,
+			"prClippings": 2
+		},
+		"week17": {
+			"dateCreated": "2020-04-18T00:00:00-05:00",
+			"webVisitors": 80000,
+			"prClippings": 3
+		},
+		"week18": {
+			"dateCreated": "2020-04-25T00:00:00-05:00",
+			"webVisitors": 50000,
+			"prClippings": 3
+		},
+		"week19": {
+			"dateCreated": "2020-05-02T00:00:00-05:00",
+			"webVisitors": 60000,
+			"prClippings": 15
+		},
+		"week20": {
+			"dateCreated": "2020-05-09T00:00:00-05:00",
+			"webVisitors": 120000,
+			"prClippings": 8
+		},
+		"week21": {
+			"dateCreated": "2020-05-16T00:00:00-05:00",
+			"webVisitors": 150000,
+			"prClippings": 12
+		},
+		"week22": {
+			"dateCreated": "2020-05-23T00:00:00-05:00",
+			"webVisitors": 100000,
+			"prClippings": 2
+		},
+		"week23": {
+			"dateCreated": "2020-05-30T00:00:00-05:00",
+			"webVisitors": 70000,
+			"prClippings": 2
+		},
+		"week24": {
+			"dateCreated": "2020-06-06T00:00:00-05:00",
+			"webVisitors": 60000,
+			"prClippings": 2
+		},
+		"week25": {
+			"dateCreated": "2020-06-13T00:00:00-05:00",
+			"webVisitors": 70000,
+			"prClippings": 2
+		},
+		"week26": {
+			"dateCreated": "2020-06-20T00:00:00-05:00",
+			"webVisitors": 80000,
+			"prClippings": 3
+		},
+		"week27": {
+			"dateCreated": "2020-06-27T00:00:00-05:00",
+			"webVisitors": 60000,
+			"prClippings": 2
+		},
+		"week28": {
+			"dateCreated": "2020-07-04T00:00:00-05:00",
+			"webVisitors": 60000,
+			"prClippings": 1
+		},
+		"week29": {
+			"dateCreated": "2020-07-11T00:00:00-05:00",
+			"webVisitors": 100000,
+			"prClippings": 5
+		},
+		"week30": {
+			"dateCreated": "2020-07-18T00:00:00-05:00",
+			"webVisitors": 70000,
+			"prClippings": 2
+		},
+		"week31": {
+			"dateCreated": "2020-07-25T00:00:00-05:00",
+			"webVisitors": 60000,
+			"prClippings": 3
+		},
+		"week32": {
+			"dateCreated": "2020-08-08T00:00:00-05:00",
+			"webVisitors": 90000,
+			"prClippings": 11
+		},
+		"week33": {
+			"dateCreated": "2020-08-15T00:00:00-05:00",
+			"webVisitors": 140000,
+			"prClippings": 12
+		},
+		"week34": {
+			"dateCreated": "2020-08-22T00:00:00-05:00",
+			"webVisitors": 160000,
+			"prClippings": 10
+		},
+		"week35": {
+			"dateCreated": "2020-08-29T00:00:00-05:00",
+			"webVisitors": 70000,
+			"prClippings": 3
+		},
+		"week36": {
+			"dateCreated": "2020-09-05T00:00:00-05:00",
+			"webVisitors": 60000,
+			"prClippings": 6
+		},
+		"week37": {
+			"dateCreated": "2020-09-12T00:00:00-05:00",
+			"webVisitors": 70000,
+			"prClippings": 4
+		},
+		"week38": {
+			"dateCreated": "2020-09-19T00:00:00-05:00",
+			"webVisitors": 100000,
+			"prClippings": 8
+		},
+		"week39": {
+			"dateCreated": "2020-09-26T00:00:00-05:00",
+			"webVisitors": 70000,
+			"prClippings": 2
+		},
+		"week40": {
+			"dateCreated": "2020-10-03T00:00:00-05:00",
+			"webVisitors": 60000,
+			"prClippings": 0
+		},
+		"week41": {
+			"dateCreated": "2020-10-10T00:00:00-05:00",
+			"webVisitors": 35000,
+			"prClippings": 0
+		},
+		"week42": {
+			"dateCreated": "2020-10-17T00:00:00-05:00",
+			"webVisitors": 50000,
+			"prClippings": 1
+		},
+		"week43": {
+			"dateCreated": "2020-10-24T00:00:00-05:00",
+			"webVisitors": 60000,
+			"prClippings": 2
+		},
+		"week44": {
+			"dateCreated": "2020-10-31T00:00:00-05:00",
+			"webVisitors": 60000,
+			"prClippings": 1
+		},
+		"week45": {
+			"dateCreated": "2020-11-07T00:00:00-05:00",
+			"webVisitors": 70000,
+			"prClippings": 1
+		},
+		"week46": {
+			"dateCreated": "2020-11-14T00:00:00-05:00",
+			"webVisitors": 100000,
+			"prClippings": 2
+		},
+		"week47": {
+			"dateCreated": "2020-11-21T00:00:00-05:00",
+			"webVisitors": 80000,
+			"prClippings": 3
+		},
+		"week48": {
+			"dateCreated": "2020-11-28T00:00:00-05:00",
+			"webVisitors": 450000,
+			"prClippings": 8
+		},
+		"week49": {
+			"dateCreated": "2020-12-05T00:00:00-05:00",
+			"webVisitors": 800000,
+			"prClippings": 15
+		},
+		"week50": {
+			"dateCreated": "2020-12-12T00:00:00-05:00",
+			"webVisitors": 300000,
+			"prClippings": 1
+		},
+		"week51": {
+			"dateCreated": "2020-12-19T00:00:00-05:00",
+			"webVisitors": 150000,
+			"prClippings": 2
+		},
+		"week52": {
+			"dateCreated": "2020-12-26T00:00:00-05:00",
+			"webVisitors": 130000,
+			"prClippings": 0
+		},
+	}
+}
