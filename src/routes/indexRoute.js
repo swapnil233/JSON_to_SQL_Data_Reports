@@ -2,6 +2,7 @@ const express = require("express");
 const app = express()
 const indexRoute = express.Router();
 const mysql = require("mysql");
+const fs = require("fs");
 
 // Environment Variables
 const dotenv = require("dotenv")
