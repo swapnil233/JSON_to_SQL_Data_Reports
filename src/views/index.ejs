@@ -5,8 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nanoleaf | <%= title %></title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    Hello
+
+    <table class="marketing_table">
+        <thead>
+          <th>Week</th>
+          <th>Date Created</th>
+          <th>Website Visitors</th>
+          <th>PR Clippings</th>
+        </thead>
+
+        <% marketingData.forEach(item => { %>
+
+            <tr>
+                <td><%= item.week_number %></td>
+                <td><%= item.date_created %></td>
+                <td><%= item.web_visitors %></td>
+                <td><%= item.pr_clippings %></td>
+            </tr>
+
+        <% }) %>
+      </table>
 </body>
 </html>
