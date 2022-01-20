@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/swapnil233/Nanoleaf_Challenge#readme",
   "dependencies": {
+    "chart.js": "^3.7.0",
     "dotenv": "^14.2.0",
     "ejs": "^3.1.6",
     "express": "^4.17.2",
