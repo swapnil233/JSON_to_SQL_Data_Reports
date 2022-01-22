@@ -34,6 +34,11 @@
                 <th>Order Name</th>
                 <th>Date</th>
                 <th>Time</th>
+                <th>Sales Channel</th>
+                <th>Subtotal</th>
+                <th>Discounts</th>
+                <th>Shipping</th>
+                <th>Taxes</th>
                 <th>Total</th>
                 <th># Items Sold</th>
                 <th># Orders Placed</th>
@@ -46,6 +51,11 @@
                 <td><%= item.order_name %></td>
                 <td><%= item.date_created.split(",")[0] %></td>
                 <td><%= item.date_created.split(",")[1] %></td>
+                <td><%= item.sales_channel %></td>
+                <td><%= item.subtotal %></td>
+                <td><%= item.discount_amt %></td>
+                <td><%= item.shipping_amt %></td>
+                <td><%= item.total_taxes_amt %></td>
                 <td><%= item.iso_currency + " " + item.total.toLocaleString() %></td>
                 <td><%= item.num_items_ordered %></td>
                 <td><%= item.num_payments %></td>
@@ -145,6 +155,7 @@
 
             // Show the number of fulfillments over time
             document.getElementById("fulfillments_time").addEventListener("click", function() {
+                e.preventDefault();
                 myChart.data.datasets[0].data = arrayOfNumFulfillments;
                 myChart.data.datasets[0].label = "Number of Fulfillments (shipments)";
                 myChart.update();

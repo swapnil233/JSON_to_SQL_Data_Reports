@@ -131,25 +131,26 @@ q:after {
     content: none;
 }
 
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-
 body {
     font-family: 'Poppins', sans-serif;
 }
 
 .container {
     display: grid;
-    grid-template-columns: 0.7fr 1.3fr;
-    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas:
-        ". .";
-    width: 100%;
-    height: 100%;
+        "."
+        ".";
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    max-width: 1300px;
+    margin: 0 auto;
 }
 
 .marketing_table {
@@ -168,13 +169,15 @@ tr:nth-of-type(even) {
 td,
 th {
     text-align: left;
-    padding: 5px 20px;
+    padding: 5px 10px;
 }
 
 .chart-container {
     padding: 0 0 0 50px;
-    width: auto;
+    width: 100%;
     height: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
 }
 
 /* Style the navigation */
