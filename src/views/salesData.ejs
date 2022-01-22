@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/header.ejs') %>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a class="logo" href="/"><img src="https://ca-cdn.nanoleaf.me/assets/img/common/nanoleaf-logo-white.svg"
+                    alt="Nanoleaf Logo"></a>
+            <ul>
+                <li><a class="nav-links" href="/marketingData">Marketing Data</a></li>
+                <li><a class="nav-links active-link" href="/salesData">Sales Data</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Delete  -->
+    <form action="salesData/delete_original" method="POST">
+        <input type="submit" value="clear">
+    </form>
+
+    <!-- Re-insert -->
+    <form action="salesData/insert_original" method="POST">
+        <input type="submit" value="Insert Original Data">
+    </form>
+
+    <!-- Container for Table and Chart -->
+    <div class="container">
+        <!-- Table -->
+        <table class="marketing_table" cellspacing="0">
+            <thead>
+                <th>Order Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Total</th>
+                <th># Items Sold</th>
+                <th># Orders Placed</th>
+                <th># Fulfillments (shipments)</th>
+            </thead>
+
+            <% salesData.forEach(item => { %>
+
+            <tr>
+                <td><%= item.order_name %></td>
+                <td><%= item.date_created.split(",")[0] %></td>
+                <td><%= item.date_created.split(",")[1] %></td>
+                <td><%= item.iso_currency + " " + item.total.toLocaleString() %></td>
+                <td><%= item.num_items_ordered %></td>
+                <td><%= item.num_payments %></td>
+                <td><%= item.num_fulfillments %></td>
+            </tr>
+
+            <% }) %>
+        </table>
+
+        <!-- Chart -->
+        <div class="chart-container">
+            <canvas id="myChart"></canvas>
+            <a id="csv_download" href="#">Download as CSV</a>
+            <a id="items_time" href="#">View Number of Items Sold Over Time</a>
+            <a id="orders_time" href="#">View Number of Orders Placed Over Time</a>
+            <a id="fulfillments_time" href="#">View Number of Fulfillments Over Time</a>
+            <a id="all_data" href="#">View All</a>
+        </div>
+
+        <script>
+            const data = <%- JSON.stringify(salesData) %>;
+            console.log(data)
+
+            let rows = [
+                ["Date", "Time", "Order Name", "Total", "Number of Items Sold", "Number of Orders Placed", "Number of Fulfillments (shipments)"]
+            ];
+
+            // Add data to rows
+            for (let i = 0; i < data.length; i++) {
+                let row = [];
+                row.push(data[i].date_created.split(",")[0]);
+                row.push(data[i].date_created.split(",")[1]);
+                row.push(data[i].order_name);
+                row.push(data[i].total);
+                row.push(data[i].num_items_ordered);
+                row.push(data[i].num_payments);
+                row.push(data[i].num_fulfillments);
+                rows.push(row);
+            }
+
+            // Make a csv from rows and download it when the user clicks the link with id csv_download
+            const csv = rows.map(row => row.join(",")).join("\n");
+            document.getElementById("csv_download").setAttribute("download",
+                `sales_data_${data[0].date_created.split(",")[0]}_${data[data.length - 1].date_created.split(",")[0]}.csv`
+            )
+            document.getElementById("csv_download").href = "data:text/csv;charset=utf-8," + encodeURIComponent(csv);
+
+            // Variables for the chart
+            const arrayOfDates = data.map(item => item.date_created.split(",")[0]);
+            const arrayOfTimes = data.map(item => item.date_created.split(",")[1]);
+            const arrayOfOrderNames = data.map(item => item.order_name);
+            const arrayOfTotals = data.map(item => item.total);
+            const arrayOfNumItemsOrdered = data.map(item => item.num_items_ordered);
+            const arrayOfNumPayments = data.map(item => item.num_payments);
+            const arrayOfNumFulfillments = data.map(item => item.num_fulfillments);
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const xLabels = arrayOfDates;
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: xLabels,
+                    datasets: [{
+                        label: `Sales Rvenues`,
+                        data: arrayOfTotals,
+                        backgroundColor: 'rgba(0, 0, 0, 0.99)',
+                        borderColor: 'rgba(0, 0, 0, 0.99)',
+                        borderWidth: 1,
+                        tension: 0.4,
+                        yAxisID: 'y'
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            type: 'linear',
+                            position: 'left'
+                        }
+                    }
+                }
+            })
+
+            // Show the number of items sold over time
+            document.getElementById("items_time").addEventListener("click", function() {
+                myChart.data.datasets[0].data = arrayOfNumItemsOrdered;
+                myChart.data.datasets[0].label = "Number of Items Sold";
+                myChart.update();
+            })
+
+            // Show the number of orders placed over time
+            document.getElementById("orders_time").addEventListener("click", function() {
+                myChart.data.datasets[0].data = arrayOfNumPayments;
+                myChart.data.datasets[0].label = "Number of Orders Placed";
+                myChart.update();
+            })
+
+            // Show the number of fulfillments over time
+            document.getElementById("fulfillments_time").addEventListener("click", function() {
+                myChart.data.datasets[0].data = arrayOfNumFulfillments;
+                myChart.data.datasets[0].label = "Number of Fulfillments (shipments)";
+                myChart.update();
+            })
+        </script>
+    </div>
+</body>
+</html>
