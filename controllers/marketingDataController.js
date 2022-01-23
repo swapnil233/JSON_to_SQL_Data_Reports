@@ -83,32 +83,9 @@ const marketingData_insertOriginal = (req, res) => {
                 res.send("The table is not empty. Please clear all data first.");
 
             } else {
-                // Data array, to be inserted into table via SQL
-                let marketingDataRows = [];
 
-                // Loop through the json file and insert each week's data into the database
-                Object.keys(json_file.marketingData).forEach(key => {
-                    const weekNumber = parseInt(key.split("week")[1]);
-                    const dateCreated = new Date(json_file.marketingData[key].dateCreated).toLocaleString();
-                    const webVisitors = json_file.marketingData[key].webVisitors;
-                    const prClippings = json_file.marketingData[key].prClippings;
-
-                    marketingDataRows.push([weekNumber, dateCreated, webVisitors, prClippings]);
-                });
-
-                // Insert into table
-                const sql = "INSERT INTO marketingdata (week_number, date_created, web_visitors, pr_clippings) VALUES ?";
-
-                connection.query(sql, [marketingDataRows], (error, results, fields) => {
-                    if (error) {
-                        console.log(error);
-                        return res.send(error);
-                    }
-                }).on("end", () => {
-                    connection.release();
-                    console.log("Inserted original data into marketingdata table & released connection.");
-                    res.redirect("/");
-                })
+                // Insert the data
+                insertData(req, res, json_file, connection);
             }
         })
     });
@@ -141,6 +118,16 @@ const marketingData_insertNew = (req, res) => {
     // The uploaded file
     const uploadedJSONFile = req.files.marketingDataJSON;
 
+    // Parse the uploaded JSON file
+    const rawData = uploadedJSONFile.data;
+    let json_file = JSON.parse(rawData);
+
+    if (json_file.marketingData) {
+        console.log("Correctly formatted marketing data file")
+    } else {
+        return res.send("The marketing data JSON file uploaded is not in the correct format")
+    }
+
     pool.getConnection((err, connection) => {
         if (err) {
             console.log(err)
@@ -170,78 +157,46 @@ const marketingData_insertNew = (req, res) => {
                         return res.send(err);
                     }
                 });
-
-                // Read the uploaded JSON file
-                const rawData = uploadedJSONFile.data;
-                let json_file = JSON.parse(rawData);
-
-                // Data array, to be inserted into marketingtable
-                let newMarketingDataRows = [];
-
-                // Loop through the json file and insert each week's data into the database
-                Object.keys(json_file.marketingData).forEach(key => {
-                    const weekNumber = parseInt(key.split("week")[1]);
-                    const dateCreated = new Date(json_file.marketingData[key].dateCreated).toLocaleString();
-                    const webVisitors = json_file.marketingData[key].webVisitors;
-                    const prClippings = json_file.marketingData[key].prClippings;
-                    newMarketingDataRows.push([weekNumber, dateCreated, webVisitors, prClippings]);
-                });
-
-                // Insert into table
-                const sql = "INSERT INTO marketingdata (week_number, date_created, web_visitors, pr_clippings) VALUES ?";
-
-                connection.query(sql, [newMarketingDataRows], (error, results, fields) => {
-                    if (error) {
-                        console.log(err)
-                        connection.release();
-                        console.log("Error connecting to the DB. Connection released.")
-                        return res.send(err);
-                    }
-                }).on("end", () => {
-                    console.log("Finished inserting the given data into marketingdata table.");
-                    // Release the connection
-                    connection.release();
-                    console.log("Released the connection")
-                    res.redirect("/");
-                })
+                insertData(req, res, json_file, connection)
 
                 // If the marketingdata table is already empty
             } else {
-                // Read the uploaded JSON file
-                const rawData = uploadedJSONFile.data;
-                let json_file = JSON.parse(rawData);
-
-                // Data array, to be inserted into marketingtable
-                let newMarketingDataRows = [];
-
-                // Loop through the json file and insert each week's data into the database
-                Object.keys(json_file.marketingData).forEach(key => {
-                    const weekNumber = parseInt(key.split("week")[1]);
-                    const dateCreated = new Date(json_file.marketingData[key].dateCreated).toLocaleString();
-                    const webVisitors = json_file.marketingData[key].webVisitors;
-                    const prClippings = json_file.marketingData[key].prClippings;
-                    newMarketingDataRows.push([weekNumber, dateCreated, webVisitors, prClippings]);
-                });
-
-                // Insert into table
-                const sql = "INSERT INTO marketingdata (week_number, date_created, web_visitors, pr_clippings) VALUES ?";
-
-                connection.query(sql, [newMarketingDataRows], (error, results, fields) => {
-                    if (error) {
-                        console.log(err)
-                        connection.release();
-                        console.log("Error connecting to the DB. Connection released.")
-                        return res.send(err);
-                    }
-                }).on("end", () => {
-                    console.log("Finished inserting the given data into marketingdata table.");
-                    // Release the connection
-                    connection.release();
-                    console.log("Released the connection")
-                    res.redirect("/");
-                })
+                insertData(req, res, json_file, connection)
             }
         })
+    })
+}
+
+const insertData = (req, res, json_file, connection) => {
+    // Data array, to be inserted into marketingtable
+    let newMarketingDataRows = [];
+    
+    // Loop through the json file and insert each week's data into the database
+    Object.keys(json_file.marketingData).forEach(key => {
+        const weekNumber = parseInt(key.split("week")[1]);
+        const dateCreated = new Date(json_file.marketingData[key].dateCreated).toLocaleString();
+        const webVisitors = json_file.marketingData[key].webVisitors;
+        const prClippings = json_file.marketingData[key].prClippings;
+        
+        newMarketingDataRows.push([weekNumber, dateCreated, webVisitors, prClippings]);
+    });
+
+    // Insert into table
+    const sql = "INSERT INTO marketingdata (week_number, date_created, web_visitors, pr_clippings) VALUES ?";
+
+    connection.query(sql, [newMarketingDataRows], (error, results, fields) => {
+        if (error) {
+            console.log(err)
+            connection.release();
+            console.log("Error connecting to the DB. Connection released.")
+            return res.send(err);
+        }
+    }).on("end", () => {
+        console.log("Finished inserting the given data into marketingdata table.");
+        // Release the connection
+        connection.release();
+        console.log("Released the connection")
+        res.redirect("/");
     })
 }
 
