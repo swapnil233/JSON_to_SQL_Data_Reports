@@ -14,10 +14,8 @@ dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
-// Parsing Middlewares
-app.use(express.urlencoded({
-    extended: true
-}));
+// Middlewares
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get("/", (req, res) => {
