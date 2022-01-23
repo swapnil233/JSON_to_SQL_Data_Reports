@@ -158,7 +158,7 @@ router.post('/upload', (req, res) => {
     }
 
     const uploadedJSONFile = req.files.marketingDataJSON;
-    const uploadPath = path.join(__dirname, "../../src/uploads/") + uploadedJSONFile.name;
+    const uploadPath = path.dirname("../../src/uploads/") + uploadedJSONFile.name;
     console.log(uploadPath);
 
     // Put the uploaded file in /uploads folder
