@@ -52,14 +52,14 @@
                 <td><%= item.date_created.split(",")[0] %></td>
                 <td><%= item.date_created.split(",")[1] %></td>
                 <td><%= item.sales_channel %></td>
-                <td><%= item.subtotal %></td>
-                <td><%= item.discount_amt %></td>
-                <td><%= item.shipping_amt %></td>
-                <td><%= item.total_taxes_amt %></td>
+                <td><%= item.subtotal.toLocaleString() %></td>
+                <td><%= item.discount_amt.toLocaleString() %></td>
+                <td><%= item.shipping_amt.toLocaleString() %></td>
+                <td><%= item.total_taxes_amt.toLocaleString() %></td>
                 <td><%= item.iso_currency + " " + item.total.toLocaleString() %></td>
-                <td><%= item.num_items_ordered %></td>
-                <td><%= item.num_payments %></td>
-                <td><%= item.num_fulfillments %></td>
+                <td><%= item.num_items_ordered.toLocaleString() %></td>
+                <td><%= item.num_payments.toLocaleString() %></td>
+                <td><%= item.num_fulfillments.toLocaleString() %></td>
             </tr>
 
             <% }) %>

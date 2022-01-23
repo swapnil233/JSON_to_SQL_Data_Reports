@@ -27,6 +27,12 @@
         <input type="submit" value="Insert Original Data">
     </form>
 
+    <!-- Upload -->
+    <form action="marketingData/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" id="myFile" name="marketingDataJSON" value="Upload JSON">
+        <input type="submit">
+    </form>
+
     <!-- Container for Table and Chart -->
     <div class="container">
         <!-- Table -->
@@ -43,8 +49,8 @@
             <tr>
                 <td><%= item.week_number %></td>
                 <td><%= item.date_created %></td>
-                <td><%= item.web_visitors %></td>
-                <td><%= item.pr_clippings %></td>
+                <td><%= item.web_visitors.toLocaleString() %></td>
+                <td><%= item.pr_clippings.toLocaleString() %></td>
             </tr>
 
             <% }) %>
