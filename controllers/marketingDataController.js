@@ -24,19 +24,6 @@ const pool = mysql.createPool({
     database: DB_NAME
 });
 
-/*
-CREATE TABLE `marketingdata` (
-  `week_number` int(11) NOT NULL,
-  `date_created` varchar(45) DEFAULT NULL,
-  `web_visitors` int(11) DEFAULT NULL,
-  `pr_clippings` int(11) DEFAULT NULL,
-  PRIMARY KEY (`week_number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-*/
-
 // Index Route
 const marketingData_index = (req, res) => {
     pool.getConnection((err, connection) => {
