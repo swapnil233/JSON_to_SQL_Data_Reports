@@ -24,9 +24,32 @@ const pool = mysql.createPool({
     database: DB_NAME
 });
 
+/*
+CREATE TABLE `marketingdata` (
+  `week_number` int(11) NOT NULL,
+  `date_created` varchar(45) DEFAULT NULL,
+  `web_visitors` int(11) DEFAULT NULL,
+  `pr_clippings` int(11) DEFAULT NULL,
+  PRIMARY KEY (`week_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+*/
+
 // Index Route
 const marketingData_index = (req, res) => {
     pool.getConnection((err, connection) => {
+        // If salesdata table doesn't exist, create it...
+        connection.query('CREATE TABLE IF NOT EXISTS marketingdata (week_number INT(11) NOT NULL, date_created VARCHAR(45) DEFAULT NULL, web_visitors INT(11) DEFAULT NULL, pr_clippings INT(11) DEFAULT NULL, PRIMARY KEY (week_number)) ENGINE=InnoDB DEFAULT CHARSET=utf8;', (err, rows, fields) => {
+            if (err) {
+                console.log(err);
+                res.send(err);
+            } else {
+                console.log("marketingdata table created successfully!");
+            }
+        });
+
         // Retrieve everything from marketingdata table and render it into the page
         connection.query('SELECT * FROM marketingdata', (err, rows, fields) => {
             // Release the connection
