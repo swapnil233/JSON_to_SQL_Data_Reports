@@ -27,6 +27,17 @@ const pool = mysql.createPool({
 // Index Route
 const salesData_index = (req, res) => {
     pool.getConnection((err, connection) => {
+
+        // If salesdata table doesn't exist, create it...
+        connection.query('CREATE TABLE IF NOT EXISTS salesdata (date_created VARCHAR(45) NOT NULL, order_name VARCHAR(40) NOT NULL, sales_channel VARCHAR(45) NOT NULL, iso_currency VARCHAR(10) NOT NULL, subtotal FLOAT NOT NULL, discount_amt FLOAT NOT NULL, shipping_amt FLOAT NOT NULL, total_taxes_amt FLOAT NOT NULL, tax_type VARCHAR(10) NOT NULL, total FLOAT NOT NULL, num_items_ordered INT NOT NULL, num_fulfillments INT NOT NULL, num_payments INT NOT NULL, PRIMARY KEY (date_created), UNIQUE INDEX order_name_UNIQUE (order_name ASC))', (err, rows, fields) => {
+            if (err) {
+                console.log(err);
+                res.send(err);
+            } else {
+                console.log("salesData table created successfully!");
+            }
+        });
+
         // Retrieve everything from salesData table and render it into the page
         connection.query('SELECT * FROM salesData', (err, rows, fields) => {
             // Release the connection
@@ -207,10 +218,10 @@ const insertData = (req, res, json_file, connection) => {
 
     connection.query(sql, [newsalesDataRows], (error, results, fields) => {
         if (error) {
-            console.log(err)
+            console.log(error)
             connection.release();
             console.log("Error connecting to the DB. Connection released.")
-            return res.send(err);
+            return res.send(error);
         }
     }).on("end", () => {
         console.log("Finished inserting the given data into salesData table.");
