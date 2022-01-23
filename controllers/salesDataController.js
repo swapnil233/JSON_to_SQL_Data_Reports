@@ -25,10 +25,10 @@ const pool = mysql.createPool({
 });
 
 // Index Route
-const marketingData_index = (req, res) => {
+const salesData_index = (req, res) => {
     pool.getConnection((err, connection) => {
-        // Retrieve everything from marketingdata table and render it into the page
-        connection.query('SELECT * FROM marketingdata', (err, rows, fields) => {
+        // Retrieve everything from salesData table and render it into the page
+        connection.query('SELECT * FROM salesData', (err, rows, fields) => {
             // Release the connection
             connection.release();
 
@@ -37,39 +37,39 @@ const marketingData_index = (req, res) => {
                 return res.send(err);
             }
 
-            res.render("marketingData", {
+            res.render("salesData", {
                 title: "Marketing Data",
-                marketingData: rows
+                salesData: rows
             });
         });
     });
 };
 
 // Deleting data
-const marketingData_delete = (req, res) => {
+const salesData_delete = (req, res) => {
     pool.getConnection((err, connection) => {
-        connection.query('DELETE FROM marketingdata', (err, rows, fields) => {
+        connection.query('DELETE FROM salesData', (err, rows, fields) => {
             if (err) {
                 console.log(err);
                 return res.send(err);
             }
 
-            console.log("Deleted all data from marketingdata table & released connection.");
+            console.log("Deleted all data from salesData table & released connection.");
             connection.release();
 
-            res.redirect("/");
+            res.redirect("/salesData");
         });
     });
 }
 
 // Insert original/given marketing data
-const marketingData_insertOriginal = (req, res) => {
+const salesData_insertOriginal = (req, res) => {
     // Read the given JSON file
-    const rawData = fs.readFileSync('./given_files/marketingDataFixed.json')
+    const rawData = fs.readFileSync('./given_files/salesOrdersFixed.json')
     let json_file = JSON.parse(rawData);
 
     pool.getConnection((err, connection) => {
-        connection.query('SELECT * FROM marketingdata', (err, rows, fields) => {
+        connection.query('SELECT * FROM salesData', (err, rows, fields) => {
             if (err) {
                 console.log(err);
                 connection.release();
@@ -88,38 +88,38 @@ const marketingData_insertOriginal = (req, res) => {
     });
 }
 
-const marketingData_insertNew = (req, res) => {
+const salesData_insertNew = (req, res) => {
     // If no file uploaded
     if (!req.files || Object.keys(req.files).length === 0) {
         res.status(400).send("No files uploaded")
     }
 
     // If the uploaded file is not a JSON file
-    if (req.files.marketingDataJSON.mimetype !== "application/json") {
+    if (req.files.salesDataJSON.mimetype !== "application/json") {
         res.status(400).send("You can only upload JSON files.")
     }
 
     // If the uploaded JSON file is greater 4mb (the max json file size)
-    if (req.files.marketingDataJSON.size > 4000000) {
+    if (req.files.salesDataJSON.size > 4000000) {
         res.status(400).send("The JSON file needs to be less than 4mb.")
     }
 
     // Check if the JSON is valid
     try {
-        JSON.parse(req.files.marketingDataJSON.data);
+        JSON.parse(req.files.salesDataJSON.data);
         console.log("Parsed successfully. Valid JSON file.")
     } catch (error) {
         return res.send("Invalid JSON! Please go back and upload a valid JSON file.")
     }
 
     // The uploaded file
-    const uploadedJSONFile = req.files.marketingDataJSON;
+    const uploadedJSONFile = req.files.salesDataJSON;
 
     // Parse the uploaded JSON file
     const rawData = uploadedJSONFile.data;
     let json_file = JSON.parse(rawData);
 
-    if (json_file.marketingData) {
+    if (json_file.salesOrders) {
         console.log("Correctly formatted marketing data file")
     } else {
         return res.send("The marketing data JSON file uploaded is not in the correct format")
@@ -133,7 +133,7 @@ const marketingData_insertNew = (req, res) => {
             return res.send(err);
         }
 
-        connection.query('SELECT * FROM marketingdata', (err, rows, fields) => {
+        connection.query('SELECT * FROM salesData', (err, rows, fields) => {
             if (err) {
                 console.log(err)
                 connection.release();
@@ -141,12 +141,12 @@ const marketingData_insertNew = (req, res) => {
                 return res.send(err);
             }
 
-            // If marketingdata table has data in it, delete it and insert new data.
+            // If salesData table has data in it, delete it and insert new data.
             if (rows.length > 0) {
                 console.log("There is already data in the database. Deleting it now...");
 
-                // Delete all the data in marketingdata table
-                connection.query('DELETE FROM marketingdata', (err, rows, fields) => {
+                // Delete all the data in salesData table
+                connection.query('DELETE FROM salesData', (err, rows, fields) => {
                     if (err) {
                         console.log(err)
                         connection.release();
@@ -156,7 +156,7 @@ const marketingData_insertNew = (req, res) => {
                 });
                 insertData(req, res, json_file, connection)
 
-                // If the marketingdata table is already empty
+                // If the salesData table is already empty
             } else {
                 insertData(req, res, json_file, connection)
             }
@@ -166,22 +166,46 @@ const marketingData_insertNew = (req, res) => {
 
 const insertData = (req, res, json_file, connection) => {
     // Data array, to be inserted into marketingtable
-    let newMarketingDataRows = [];
-    
-    // Loop through the json file and insert each week's data into the database
-    Object.keys(json_file.marketingData).forEach(key => {
-        const weekNumber = parseInt(key.split("week")[1]);
-        const dateCreated = new Date(json_file.marketingData[key].dateCreated).toLocaleString();
-        const webVisitors = json_file.marketingData[key].webVisitors;
-        const prClippings = json_file.marketingData[key].prClippings;
+    let newsalesDataRows = [];
 
-        newMarketingDataRows.push([weekNumber, dateCreated, webVisitors, prClippings]);
+    // Loop through the json file and insert each week's data into the database
+    Object.keys(json_file.salesOrders).forEach(key => {
+        const dateCreated = new Date(json_file.salesOrders[key].dateCreated).toLocaleString();
+        const orderName = key
+        const salesChannel = json_file.salesOrders[key].salesChannel;
+        const isoCurrency = json_file.salesOrders[key].isoCurrency;
+        const subtotal = json_file.salesOrders[key].subtotal;
+        const discountAmt = json_file.salesOrders[key].discountAmt;
+        const shippingAmt = json_file.salesOrders[key].shipping;
+        const taxType = json_file.salesOrders[key].taxType;
+        const total = json_file.salesOrders[key].total;
+
+        // Total taxes
+        let totalTaxesAmt = 0;
+        for (const [tax_type, tax_amt] of Object.entries(json_file.salesOrders[key].taxes)) {
+            totalTaxesAmt += tax_amt
+        }
+
+        // Number of Items Ordered
+        let numItemsOrdered = 0;
+        for (const [line_item, amount_ordered] of Object.entries(json_file.salesOrders[key].lineItems)) {
+            numItemsOrdered += amount_ordered
+        }
+
+        // Number of Fulfillments (shippings)
+        let numFulfillments = Object.keys(json_file.salesOrders[key].fulfillments).length;
+
+        // Number of payments
+        let numPayments = Object.keys(json_file.salesOrders[key].payments).length;
+
+        // Push the data into the data array
+        newsalesDataRows.push([dateCreated, orderName, salesChannel, isoCurrency, subtotal, discountAmt, shippingAmt, totalTaxesAmt, taxType, total, numItemsOrdered, numFulfillments, numPayments]);
     });
 
     // Insert into table
-    const sql = "INSERT INTO marketingdata (week_number, date_created, web_visitors, pr_clippings) VALUES ?";
+    const sql = "INSERT INTO salesData (date_created, order_name, sales_channel, iso_currency, subtotal, discount_amt, shipping_amt, total_taxes_amt, tax_type, total, num_items_ordered, num_fulfillments, num_payments) VALUES ?";
 
-    connection.query(sql, [newMarketingDataRows], (error, results, fields) => {
+    connection.query(sql, [newsalesDataRows], (error, results, fields) => {
         if (error) {
             console.log(err)
             connection.release();
@@ -189,17 +213,17 @@ const insertData = (req, res, json_file, connection) => {
             return res.send(err);
         }
     }).on("end", () => {
-        console.log("Finished inserting the given data into marketingdata table.");
+        console.log("Finished inserting the given data into salesData table.");
         // Release the connection
         connection.release();
         console.log("Released the connection")
-        res.redirect("/");
+        res.redirect("/salesData");
     })
 }
 
 module.exports = {
-    marketingData_index,
-    marketingData_delete,
-    marketingData_insertOriginal,
-    marketingData_insertNew
+    salesData_index,
+    salesData_delete,
+    salesData_insertOriginal,
+    salesData_insertNew
 };
