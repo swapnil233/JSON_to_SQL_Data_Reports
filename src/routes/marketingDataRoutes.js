@@ -30,7 +30,6 @@ const DB_NAME = process.env.DB_NAME;
 router.get("/", (req, res) => {
 
     const pool = mysql.createPool({
-        connectionLimit: 10,
         host: DB_HOST,
         user: DB_USERNAME,
         password: DB_PASSWORD,
@@ -61,7 +60,6 @@ router.get("/", (req, res) => {
 router.post("/delete_original", (req, res) => {
 
     const pool = mysql.createPool({
-        connectionLimit: 10,
         host: DB_HOST,
         user: DB_USERNAME,
         password: DB_PASSWORD,
@@ -87,7 +85,6 @@ router.post("/delete_original", (req, res) => {
 router.post("/insert_original", (req, res) => {
 
     const pool = mysql.createPool({
-        connectionLimit: 10,
         host: DB_HOST,
         user: DB_USERNAME,
         password: DB_PASSWORD,
@@ -143,7 +140,7 @@ router.post("/insert_original", (req, res) => {
 })
 
 // Let users insert their own JSON file
-router.post('/upload', async (req, res) => {
+router.post('/upload', (req, res) => {
 
     // If no file uploaded
     if (!req.files || Object.keys(req.files).length === 0) {
@@ -161,21 +158,17 @@ router.post('/upload', async (req, res) => {
     }
 
     const uploadedJSONFile = req.files.marketingDataJSON;
-    const uploadPath = path.join(__dirname, "../../uploads/") + uploadedJSONFile.name;
+    const uploadPath = path.join(__dirname, "../../src/uploads/") + uploadedJSONFile.name;
+    console.log(uploadPath);
 
     // Put the uploaded file in /uploads folder
-    await uploadedJSONFile.mv(uploadPath, (err) => {
+    uploadedJSONFile.mv(uploadPath, (err) => {
         if (err) {
             console.log(err);
             return res.status(500).send(err);
         }
 
-        // Read the uploaded JSON file
-        const rawData = fs.readFileSync(uploadPath)
-        let json_file = JSON.parse(rawData);
-
         const pool = mysql.createPool({
-            connectionLimit: 10,
             host: DB_HOST,
             user: DB_USERNAME,
             password: DB_PASSWORD,
@@ -184,34 +177,38 @@ router.post('/upload', async (req, res) => {
 
         pool.getConnection((err, connection) => {
             if (err) {
+                connection.release();
                 console.log(err);
                 return res.send(err);
             }
 
             // Don't write any data if table isn't empty
             connection.query('SELECT * FROM marketingdata', (err, rows, fields) => {
-                // Release the connection
-                connection.release();
-
                 if (err) {
                     console.log(err);
+
+                    // Release the connection
+                    connection.release();
+
                     return res.send(err);
                 }
 
                 // Only insert the given data if there is no data in the database
                 if (rows.length > 0) {
                     console.log("There is already data in the database. Deleting it now...");
+
                     // Delete all the data in marketingdata table
                     connection.query('DELETE FROM marketingdata', (err, rows, fields) => {
-                        // Release the connection
-                        connection.release();
-
                         if (err) {
-                            console.log(err);
+                            console.log(err)
                             return res.send(err);
                         }
                     });
-                } else {
+
+                    // Read the uploaded JSON file
+                    const rawData = fs.readFileSync(uploadPath)
+                    let json_file = JSON.parse(rawData);
+
                     // Data array, to be inserted into table via SQL
                     let dataArray = [];
 
@@ -228,14 +225,46 @@ router.post('/upload', async (req, res) => {
                     const sql = "INSERT INTO marketingdata (week_number, date_created, web_visitors, pr_clippings) VALUES ?";
 
                     connection.query(sql, [dataArray], (error, results, fields) => {
-                        // Release the connection
-                        connection.release();
-
                         if (error) {
                             console.log(error);
                             return res.send(error);
                         }
                     }).on("end", () => {
+                        console.log("Inserted given data into marketingdata table & released connection.");
+                        // Release the connection
+                        connection.release();
+                        res.redirect("/");
+                    })
+                } else {
+
+                    // Read the uploaded JSON file
+                    const rawData = fs.readFileSync(uploadPath)
+                    let json_file = JSON.parse(rawData);
+
+                    // Data array, to be inserted into table via SQL
+                    let dataArray = [];
+
+                    // Loop through the json file and insert each week's data into the database
+                    Object.keys(json_file.marketingData).forEach(key => {
+                        const weekNumber = parseInt(key.split("week")[1]);
+                        const dateCreated = new Date(json_file.marketingData[key].dateCreated).toLocaleString();
+                        const webVisitors = json_file.marketingData[key].webVisitors;
+                        const prClippings = json_file.marketingData[key].prClippings;
+                        dataArray.push([weekNumber, dateCreated, webVisitors, prClippings]);
+                    });
+
+                    // Insert into table
+                    const sql = "INSERT INTO marketingdata (week_number, date_created, web_visitors, pr_clippings) VALUES ?";
+
+                    connection.query(sql, [dataArray], (error, results, fields) => {
+                        if (error) {
+                            console.log(error);
+                            return res.send(error);
+                        }
+                    }).on("end", () => {
+                        console.log("Inserted given data into marketingdata table & released connection.");
+                        // Release the connection
+                        connection.release();
                         res.redirect("/");
                     })
                 }
