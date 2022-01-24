@@ -29,16 +29,6 @@ const pool = mysql.createPool({
 const productsData_index = (req, res) => {
     pool.getConnection((err, connection) => {
 
-        // // If productsData table doesn't exist, create it...
-        // connection.query('CREATE TABLE IF NOT EXISTS productsData (date_created VARCHAR(45) NOT NULL, order_name VARCHAR(40) NOT NULL, sales_channel VARCHAR(45) NOT NULL, iso_currency VARCHAR(10) NOT NULL, subtotal FLOAT NOT NULL, discount_amt FLOAT NOT NULL, shipping_amt FLOAT NOT NULL, total_taxes_amt FLOAT NOT NULL, tax_type VARCHAR(10) NOT NULL, total FLOAT NOT NULL, num_items_ordered INT NOT NULL, num_fulfillments INT NOT NULL, num_payments INT NOT NULL, PRIMARY KEY (date_created), UNIQUE INDEX order_name_UNIQUE (order_name ASC))', (err, rows, fields) => {
-        //     if (err) {
-        //         console.log(err);
-        //         res.send(err);
-        //     } else {
-        //         console.log("productsData table created successfully!");
-        //     }
-        // });
-
         const query = `
         Select 
         product.product_name as sku, 
@@ -80,17 +70,20 @@ const productsData_index = (req, res) => {
 
         FROM product 
         LEFT JOIN pack_data ON product.product_id = pack_data.product_id
-        LEFT JOIN components ON components.product_id = product.product_id 
-        LEFT JOIN metric ON metric.metric_id = product.product_id 
-        LEFT JOIN imperial ON imperial.imperial_id = product.product_id 
+        LEFT JOIN components ON product.product_id = components.product_id 
+        LEFT JOIN metric ON metric.product_id = product.product_id 
+        LEFT JOIN imperial ON imperial.product_id = product.product_id 
         LEFT JOIN price_data ON price_data.product_id = product.product_id
         `
 
         connection.query(query, (err, rows, fields) => {
             if (err) {
+                connection.release();
+
                 console.log(err);
                 res.send(err);
             } else {
+                connection.release();
                 res.render("productsData", {
                     title: "Products Data",
                     productsData: rows
@@ -321,6 +314,7 @@ const insertData = (req, res, json_file, connection) => {
         // Query to insert metric
         const insert_metric = `INSERT INTO metric VALUES (
             NULL,
+            LAST_INSERT_ID(),
             ${json_file.productSKU[product].packData.Metric.LMM}, -- LMM
             ${json_file.productSKU[product].packData.Metric.WMM}, -- WMM
             ${json_file.productSKU[product].packData.Metric.HMM}, -- HMM
@@ -349,6 +343,7 @@ const insertData = (req, res, json_file, connection) => {
         // Query to insert imperial
         const insert_imperial = `INSERT INTO imperial VALUES (
             NULL, -- imperial_id
+            LAST_INSERT_ID(),
             ${json_file.productSKU[product].packData.Imperial.LIN}, -- LIN
             ${json_file.productSKU[product].packData.Imperial.WIN}, -- WIN
             ${json_file.productSKU[product].packData.Imperial.HIN}, -- HIN
@@ -415,7 +410,7 @@ const insertData = (req, res, json_file, connection) => {
         });
     })
 
-    res.send("Data Uploaded")
+    // res.redirect("/")
 }
 
 module.exports = {
