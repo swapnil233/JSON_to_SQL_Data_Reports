@@ -5,7 +5,7 @@ const mysql = require("mysql");
 
 // Routes
 const marketingDataRoutes = require("./src/routes/marketingDataRoutes");
-const productGridRoutes = require("./src/routes/productGridRoutes");
+const productsDataRoutes = require("./src/routes/productsDataRoutes");
 const salesDataRoutes = require("./src/routes/salesDataRoutes");
 
 // Environment Variables
@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 
 // Router Middlewares
 app.use("/marketingData", marketingDataRoutes);
-app.use("/productGrid", productGridRoutes)
+app.use("/productsData", productsDataRoutes)
 app.use("/salesData", salesDataRoutes);
 
 // Templating engine
