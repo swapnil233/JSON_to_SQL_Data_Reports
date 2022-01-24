@@ -40,9 +40,10 @@ price_data.sell_HKD
 
 FROM product 
 LEFT JOIN pack_data ON product.product_id = pack_data.product_id
-LEFT JOIN components ON components.product_id = product.product_id 
-LEFT JOIN metric ON metric.metric_id = product.product_id 
-LEFT JOIN imperial ON imperial.imperial_id = product.product_id LEFT JOIN price_data ON price_data.product_id = product.product_id
+LEFT JOIN components ON product.product_id = components.product_id 
+LEFT JOIN metric ON metric.product_id = product.product_id 
+LEFT JOIN imperial ON imperial.product_id = product.product_id 
+LEFT JOIN price_data ON price_data.product_id = product.product_id
 
 
 

@@ -56,7 +56,9 @@ CREATE TABLE pack_data(
     -- Foreign key metric_id will reference metric_id inside the metric table
     metric_id INT,
     -- Foreign key imperial_id will reference metric_id inside the imperial table
-    imperial_id INT
+    imperial_id INT,
+    
+    FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE
 );
 
 -- Alter the product table to now make pack_data a foreign key that points to the pack_id inside pack_data table
@@ -82,12 +84,15 @@ ON DELETE CASCADE;
 
 CREATE TABLE metric(
 	metric_id INT PRIMARY KEY AUTO_INCREMENT,
+    product_id INT,
     lmm FLOAT,
     wmm FLOAT,
     hmm FLOAT,
     gwg FLOAT,
     nwg FLOAT,
-    cbm FLOAT
+    cbm FLOAT,
+    
+    FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE
 );
 
 ALTER TABLE pack_data
@@ -97,12 +102,15 @@ ON DELETE CASCADE;
 
 CREATE TABLE imperial(
 	imperial_id INT PRIMARY KEY AUTO_INCREMENT,
+    product_id INT,
     lin FLOAT,
     win FLOAT,
     hin FLOAT,
     gwlb FLOAT,
     nwlb FLOAT,
-    cbft FLOAT
+    cbft FLOAT,
+    
+    FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE
 );
 
 ALTER TABLE pack_data
