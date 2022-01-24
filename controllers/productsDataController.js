@@ -41,7 +41,6 @@ const productsData_index = (req, res) => {
 
         const query = `
         Select 
-        product.product_id, 
         product.product_name as sku, 
         product.barcode, 
         product.parent_sku, 
