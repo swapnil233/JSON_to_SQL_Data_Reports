@@ -1,6 +1,6 @@
-DROP SCHEMA IF EXISTS first_test_db;
-CREATE SCHEMA first_test_db;
-USE first_test_db;
+DROP SCHEMA IF EXISTS heroku_06cf010c9c84850;
+CREATE SCHEMA heroku_06cf010c9c84850;
+USE heroku_06cf010c9c84850;
 
 CREATE TABLE salesdata (
 	order_id INT PRIMARY KEY AUTO_INCREMENT,

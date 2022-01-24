@@ -1,4 +1,4 @@
-USE first_test_db;
+USE heroku_06cf010c9c84850;
 
 INSERT INTO salesdata VALUES(
 	NULL, -- order_id
