@@ -1,0 +1,334 @@
+{
+	"productSKU": {
+		"WIDGET003": {
+			"barcode": "80012345678901",
+			"parentSku": "",
+			"regionCode": "3",
+			"itemType": "Starter",
+			"supplier": "Nanogrid Limited",
+			"brand": "Nanoleaf",
+			"packData": {
+				"packType": "single",
+				"components": ["COMP001::1", "COMP002::3"],
+				"Metric": {
+					"LMM": 100,
+					"WMM": 100,
+					"HMM": 100,
+					"GWG": 1000,
+					"NWG": 860,
+					"CBM": 0.001
+				},
+				"Imperial": {
+					"LIN": 3.93701,
+					"WIN": 3.93701,
+					"HIN": 3.93701,
+					"GWLB": 2.20462,
+					"NWLB": 1.89598,
+					"CBFT": 0.035
+				}
+			},
+			"priceData": {
+				"Buy": {
+					"BOMUSD": 16,
+					"buyCanadaUSD": 17.12,
+					"buyFranceUSD": 17.12,
+					"buyHongKongUSD": 17.12
+				},
+				"Sell": {
+					"CAD": 69.99,
+					"USD": 59.99,
+					"HKD": 469.99
+				}
+			},
+			"variantName": "Awesome WIDGETA Starter Kit",
+			"shortDesc": "Inner Case of WIDGETA Starter Kit. For sale in Canada and the United States only.",
+			"stocklink": "products/nanoleaf-widget-one-starter-kit/",
+			"lastUpdated": "2020-10-04T15:13:19-04:00"
+		},
+		"IN-WIDGET003": {
+			"barcode": "80012345678902",
+			"parentSku": "WIDGET003",
+			"regionCode": "3",
+			"itemType": "Starter",
+			"supplier": "Nanogrid Limited",
+			"brand": "Nanoleaf",
+			"packData": {
+				"packType": "inner",
+				"components": ["WIDGET003::3"],
+				"Metric": {
+					"LMM": 100,
+					"WMM": 100,
+					"HMM": 300,
+					"GWG": 2780,
+					"NWG": 2580,
+					"CBM": 0.003
+				},
+				"Imperial": {
+					"LIN": 3.93701,
+					"WIN": 3.93701,
+					"HIN": 11.81103,
+					"GWLB": 6.128851,
+					"NWLB": 5.687926,
+					"CBFT": 0.106
+				}
+			},
+			"priceData": {
+				"Buy": {
+					"BOMUSD": 48,
+					"buyCanadaUSD": 51.36,
+					"buyFranceUSD": 51.36,
+					"buyHongKongUSD": 51.36
+				},
+				"Sell": {
+					"CAD": 92.36,
+					"USD": 71.94,
+					"HKD": 557.76
+				}
+			},
+			"variantName": "Inner Pack: WIDGETA Starter Kit",
+			"shortDesc": "Inner pack of WIDGETA Starter Kit, includes 3x WIDGET003. For sale in Canada and the United States only. Not for direct to consumer sale.",
+			"stocklink": "",
+			"lastUpdated": "2020-10-04T15:33:04-04:00"
+		},
+		"MC-WIDGET003": {
+			"barcode": "80012345678903",
+			"parentSku": "WIDGET003",
+			"regionCode": "3",
+			"itemType": "Starter",
+			"supplier": "Nanogrid Limited",
+			"brand": "Nanoleaf",
+			"packData": {
+				"packType": "master",
+				"components": ["IN-WIDGET003::4"],
+				"Metric": {
+					"LMM": 200,
+					"WMM": 200,
+					"HMM": 300,
+					"GWG": 11520,
+					"NWG": 11120,
+					"CBM": 0.012
+				},
+				"Imperial": {
+					"LIN": 7.87402,
+					"WIN": 7.87402,
+					"HIN": 11.81103,
+					"GWLB": 25.397253,
+					"NWLB": 24.515404,
+					"CBFT": 0.424
+				}
+			},
+			"priceData": {
+				"Buy": {
+					"BOMUSD": 192,
+					"buyCanadaUSD": 205.44,
+					"buyFranceUSD": 205.44,
+					"buyHongKongUSD": 205.44
+				},
+				"Sell": {
+					"CAD": 369.86,
+					"USD": 287.62,
+					"HKD": 2230.02
+				}
+			},
+			"variantName": "Master Case: WIDGETA Starter Kit",
+			"shortDesc": "Master case of WIDGETA Starter Kit, includes 12x WIDGET003. For sale in Canada and the United States only. Not for direct to consumer sale.",
+			"stocklink": "",
+			"lastUpdated": "2020-10-04T15:42:11-04:00"
+		},
+		"PL-WIDGET003": {
+			"barcode": "80012345678904",
+			"parentSku": "WIDGET003",
+			"regionCode": "3",
+			"itemType": "Starter",
+			"supplier": "Nanogrid Limited",
+			"brand": "Nanoleaf",
+			"packData": {
+				"packType": "pallet",
+				"components": ["MC-WIDGET003::100"],
+				"Metric": {
+					"LMM": 12000,
+					"WMM": 10000,
+					"HMM": 10000,
+					"GWG": 1152000,
+					"NWG": 1112000,
+					"CBM": 1.2
+				},
+				"Imperial": {
+					"LIN": 47.2441,
+					"WIN": 39.3701,
+					"HIN": 39.3701,
+					"GWLB": 2539.72526,
+					"NWLB": 2451.540355,
+					"CBFT": 42.378
+				}
+			},
+			"priceData": {
+				"Buy": {
+					"BOMUSD": 19200,
+					"buyCanadaUSD": 20544,
+					"buyFranceUSD": 20544,
+					"buyHongKongUSD": 20544
+				},
+				"Sell": {
+					"CAD": 36968.00,
+					"USD": 28761.60,
+					"HKD": 222993.00
+				}
+			},
+			"variantName": "Pallet: WIDGETA Starter Kit",
+			"shortDesc": "Pallet of WIDGETA Starter Kit, includes 1200x WIDGET003. For sale in Canada and the United States only. Not for direct to consumer sale.",
+			"stocklink": "",
+			"lastUpdated": "2020-10-04T15:42:11-04:00"
+		},
+		"WIDGET001": {
+			"barcode": "80012345678905",
+			"parentSku": "",
+			"regionCode": "1",
+			"itemType": "Expansion",
+			"supplier": "Nanogrid Limited",
+			"brand": "Nanoleaf",
+			"packData": {
+				"packType": "single",
+				"components": ["COMP022::30"],
+				"Metric": {
+					"LMM": 200,
+					"WMM": 200,
+					"HMM": 200,
+					"GWG": 1500,
+					"NWG": 1400,
+					"CBM": 0.125
+				},
+				"Imperial": {
+					"LIN": 7.87402,
+					"WIN": 7.87402,
+					"HIN": 7.87402,
+					"GWLB": 3.30693,
+					"NWLB": 3.08647,
+					"CBFT": 0.283
+				}
+			},
+			"priceData": {
+				"Buy": {
+					"BOMUSD": 180,
+					"buyCanadaUSD": 192.60,
+					"buyFranceUSD": 192.60,
+					"buyHongKongUSD": 192.60
+				},
+				"Sell": {
+					"CAD": 499.99,
+					"USD": 389.99,
+					"GBP": 289.99,
+					"EUR": 329.99,
+					"AUD": 619.99,
+					"NZD": 659.99,
+					"SGD": 519.99,
+					"HKD": 2999.99
+				}
+			},
+			"variantName": "Awesome WIDGETA Expansion Pack",
+			"shortDesc": "WIDGETA Expansion Pack. For sale in all regions.",
+			"stocklink": "products/nanoleaf-widget-one-expansion-pack/",
+			"lastUpdated": "2020-10-05T10:02:44-04:00"
+		},
+		"MC-WIDGET001": {
+			"barcode": "80012345678906",
+			"parentSku": "WIDGET001",
+			"regionCode": "1",
+			"itemType": "Expansion",
+			"supplier": "Nanogrid Limited",
+			"brand": "Nanoleaf",
+			"packData": {
+				"packType": "master",
+				"components": ["WIDGET001::8"],
+				"Metric": {
+					"LMM": 400,
+					"WMM": 400,
+					"HMM": 400,
+					"GWG": 12500,
+					"NWG": 11200,
+					"CBM": 0.064
+				},
+				"Imperial": {
+					"LIN": 15.748,
+					"WIN": 15.748,
+					"HIN": 15.748,
+					"GWLB": 27.557783,
+					"NWLB": 24.691773,
+					"CBFT": 2.26
+				}
+			},
+			"priceData": {
+				"Buy": {
+					"BOMUSD": 1440,
+					"buyCanadaUSD": 1540.80,
+					"buyFranceUSD": 1540.80,
+					"buyHongKongUSD": 1540.80
+				},
+				"Sell": {
+					"CAD": 2772.00,
+					"USD": 2157.12,
+					"GBP": 1578.80,
+					"EUR": 1788.40,
+					"AUD": 3396.13,
+					"NZD": 3616.43,
+					"SGD": 2873.53,
+					"HKD": 16726.20
+				}
+			},
+			"variantName": "Master Case: WIDGETA Expansion Pack",
+			"shortDesc": "Master Case of WIDGETA Expansion Pack, includes 8x WIDGET001. For sale in all regions. Not for direct to consumer sale.",
+			"stocklink": "",
+			"lastUpdated": "2020-08-28T14:48:19-04:00"
+		},
+		"PL-WIDGET001": {
+			"barcode": "80012345678907",
+			"parentSku": "WIDGET001",
+			"regionCode": "1",
+			"itemType": "Expansion",
+			"supplier": "Nanogrid Limited",
+			"brand": "Nanoleaf",
+			"packData": {
+				"packType": "pallet",
+				"components": ["MC-WIDGET001::18"],
+				"Metric": {
+					"LMM": 12000,
+					"WMM": 10000,
+					"HMM": 10000,
+					"GWG": 226000,
+					"NWG": 201600,
+					"CBM": 1.2
+				},
+				"Imperial": {
+					"LIN": 47.2441,
+					"WIN": 39.3701,
+					"HIN": 39.3701,
+					"GWLB": 2539.72526,
+					"NWLB": 2451.540355,
+					"CBFT": 42.378
+				}
+			},
+			"priceData": {
+				"Buy": {
+					"BOMUSD": 25920,
+					"buyCanadaUSD": 28512,
+					"buyFranceUSD": 27734.40,
+					"buyHongKongUSD": 27734.40
+				},
+				"Sell": {
+					"CAD": 49904.67,
+					"USD": 38828.16,
+					"GBP": 28421.82,
+					"EUR": 32195.15,
+					"AUD": 61123.60,
+					"NZD": 65093.34,
+					"SGD": 51726.87,
+					"HKD": 301032.78
+				}
+			},
+			"variantName": "Pallet: WIDGETA Expansion Pack",
+			"shortDesc": "Pallet of WIDGETA Expansion Pack, includes 144x WIDGET001. For sale in all regions. Not for direct to consumer sale.",
+			"stocklink": "",
+			"lastUpdated": "2020-12-14T20:50:22-08:00"
+		}
+	}
+}
