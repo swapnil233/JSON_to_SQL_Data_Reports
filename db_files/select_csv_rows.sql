@@ -1,7 +1,6 @@
 USE heroku_06cf010c9c84850;
 
 Select 
-product.product_id, 
 product.product_name as sku, 
 product.barcode, 
 product.parent_sku, 
