@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./partials/header.ejs') %>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a class="logo" href="/"><img src="https://ca-cdn.nanoleaf.me/assets/img/common/nanoleaf-logo-white.svg"
+                    alt="Nanoleaf Logo"></a>
+            <ul>
+                <li><a class="nav-links active-link" href="/marketingData">Marketing Data</a></li>
+                <li><a class="nav-links" href="/salesData">Sales Data</a></li>
+                <li><a class="nav-links" href="/productsData">Products Data</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Delete  -->
+    <form action="productsData/delete_original" method="POST">
+        <input type="submit" value="clear">
+    </form>
+
+    <!-- Re-insert -->
+    <form action="productsData/insert_original" method="POST">
+        <input type="submit" value="Insert Original Data">
+    </form>
+
+    <!-- Upload -->
+    <form action="productsData/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" id="myFile" name="productsDataJSON" value="Upload JSON">
+        <input type="submit">
+    </form>
+
+    <!-- Container for Table and Chart -->
+    <div class="container">
+        <!-- Table -->
+        <table class="marketing_table" cellspacing="0">
+            <thead>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Short Description</th>
+                <th>SKU</th>
+                <th>Barcode</th>
+                <th>Item Type</th>
+                <th>Supplier</th>
+            </thead>
+
+            <% productsData.forEach(item => { %>
+                <tr>
+                    <td><%= item.variant_name %></td>
+                    <td><%= item.brand %></td>
+                    <td><%= item.short_description %></td>
+                    <td><%= item.sku %></td>
+                    <td><%= item.barcode %></td>
+                    <td><%= item.item_type %></td>
+                    <td><%= item.supplier %></td>
+                </tr>
+            <% }) %>
+        </table>
+
+        <!-- Chart -->
+        <!-- <div class="chart-container">
+            <canvas id="myChart"></canvas>
+            <a id="csv_download" href="#">Download as CSV</a>
+        </div> -->
+
+        <script>
+            const data = <%- JSON.stringify(productsData) %>;
+
+            let rows = [
+                [   "SKU",
+                    "Barcode",
+                    "Parent SKU",
+                    "Region Code",
+                    "Item Type",
+                    "Supplier",
+                    "Brand",
+                    "Variant Name",
+                    "Short Description",
+                    "Pack Type",
+                    "Components",
+                    "# Components",
+                    "Length (mm)",
+                    "Width (mm)",
+                    "Height (mm)",
+                    "Gross Weight (grams)",
+                    "Net Weight (grams)",
+                    "Volume (m3)",
+                    "Length (in)",
+                    "Width (in)",
+                    "Height (in)",
+                    "Gross Weight (lbs)",
+                    "Volume (ft3)",
+                    "Buy (BOMUSD)",
+                    "Buy (Canada_USD)",
+                    "Buy (France_USD)",
+                    "Buy (Hong Kong_USD)",
+                    "Sell (CAD)",
+                    "Sell (USD)",
+                    "Sell (GBP)",
+                    "Sell (EUR)",
+                    "Sell (AUD)",
+                    "Sell (NZD)",
+                    "SeLL (SGD)",
+                    "Sell (HKD)"
+                ]
+            ];
+
+            console.log(data)
+
+            // // Add data to rows
+            // for (let i = 0; i < data.length; i++) {
+            //     let row = [];
+            //     row.push(data[i].week_number);
+            //     row.push(data[i].date_created.split(",")[0]);
+            //     row.push(data[i].date_created.split(",")[1]);
+            //     row.push(data[i].web_visitors);
+            //     row.push(data[i].pr_clippings);
+            //     rows.push(row);
+            // }
+
+            // // Make a csv from rows and download it when the user clicks the link with id csv_download
+            // const csv = rows.map(row => row.join(",")).join("\n");
+            // document.getElementById("csv_download").setAttribute("download",
+            //     `marketing_data_${data[0].date_created.split(",")[0]}_${data[data.length - 1].date_created.split(",")[0]}.csv`
+            // )
+            // document.getElementById("csv_download").href = "data:text/csv;charset=utf-8," + encodeURIComponent(csv);
+
+            // Variables for the chart
+            // const arrayOfWeeks = data.map(item => item.date_created.split(",")[0]);
+            // const arrayOfWebVisitors = data.map(item => item.web_visitors);
+            // const arrayOfPRClippings = data.map(item => item.pr_clippings);
+
+            // const ctx = document.getElementById('myChart').getContext('2d');
+            // const xLabels = arrayOfWeeks;
+            // const myChart = new Chart(ctx, {
+            //     type: 'line',
+            //     data: {
+            //         labels: xLabels,
+            //         datasets: [{
+            //             label: `Website Visitors`,
+            //             data: arrayOfWebVisitors,
+            //             backgroundColor: 'rgba(0, 0, 0, 0.99)',
+            //             borderColor: 'rgba(0, 0, 0, 0.99)',
+            //             borderWidth: 1,
+            //             tension: 0.4,
+            //             yAxisID: 'y'
+            //         }, {
+            //             label: `PR Clippings`,
+            //             data: arrayOfPRClippings,
+            //             backgroundColor: 'rgba(0, 2, 147, 0.99)',
+            //             borderColor: 'rgba(0, 2, 147, 0.99)',
+            //             borderWidth: 1,
+            //             tension: 0.4,
+            //             yAxisID: 'y_pr_clippings'
+            //         }]
+            //     },
+            //     options: {
+            //         scales: {
+            //             y: {
+            //                 beginAtZero: true,
+            //                 type: 'linear',
+            //                 position: 'left'
+            //             },
+            //             y_pr_clippings: {
+            //                 beginAtZero: true,
+            //                 type: 'linear',
+            //                 position: 'right',
+            //                 grid: {
+            //                     drawOnChartArea: false
+            //                 }
+            //             }
+            //         }
+            //     }
+            // })
+        </script>
+    </div>
+</body>
+
+</html>
