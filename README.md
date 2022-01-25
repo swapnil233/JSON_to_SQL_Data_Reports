@@ -36,3 +36,4 @@ This is a web-app which takes marketing data, sales data and product grids as JS
 # Known Problems:
 1. If a product has multiple components, only the first one gets put into DB after the first time the data is uploaded.
 2. Server might crash if changes made quickly in products page.
+3. The JSON files given to me were not valid JSONs. I'm not sure if we were allowed to do this, but I edited each file and fixed it. Inside the `given_files` folder, there is a fixed and the original version of each JSON file (marketing data, sales data, products grid). The app takes in the fixed versions when the user clicks "Insert Original Data", but it also has checks for invalid JSON, and will alert the user if they try to upload invalid JSON files
