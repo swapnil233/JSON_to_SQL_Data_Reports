@@ -2,9 +2,21 @@
 
 https://nanoleaf-challenge.herokuapp.com/
 
+Don't hesitate to email me at **mdhasan.iqbal@mail.utoronto.ca** if there's any problems or the Heroku site has crashed.
+
 Nanoleaf's take-home assignment for the full stack developer internship. 
 
 This is a web-app which takes marketing data, sales data and product grids as JSON files, parses them, stores the data inside an SQL server and displays the results to the user, along with charts when appropriate. 
+
+# Set Up Procedure on Your Local Machine:
+1. ```npm install``` to install all the dependencies required for the app
+2. Edit the .env file and insert:
+  * DB_HOST
+  * DB_USERNAME
+  * DB_PASSWORD
+  * DB_NAME
+3. Run the ```database_schema (USE THIS).sql``` file on your DB schema. This will create all the required tables.
+4. ```node app.js``` or ```nodemon app.js``` to get the server started on ```localhost:5000```
 
 # Lessons Learned:
 1. Finally learned how to use and work with SQL! Will be using SQL for my next project, to extend my knowledge.
