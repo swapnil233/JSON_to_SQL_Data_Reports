@@ -98,6 +98,7 @@ const marketingData_insertOriginal = (req, res) => {
     });
 }
 
+// Inserting new file
 const marketingData_insertNew = (req, res) => {
     // If no file uploaded
     if (!req.files || Object.keys(req.files).length === 0) {
@@ -129,6 +130,7 @@ const marketingData_insertNew = (req, res) => {
     const rawData = uploadedJSONFile.data;
     let json_file = JSON.parse(rawData);
 
+    // JSON Formatting Check
     if (json_file.marketingData) {
         console.log("Correctly formatted marketing data file")
     } else {
@@ -166,7 +168,7 @@ const marketingData_insertNew = (req, res) => {
                 });
                 insertData(req, res, json_file, connection)
 
-                // If the marketingdata table is already empty
+            // If the marketingdata table is already empty
             } else {
                 insertData(req, res, json_file, connection)
             }
@@ -174,6 +176,7 @@ const marketingData_insertNew = (req, res) => {
     })
 }
 
+// Function to insert data into marketingdata table
 const insertData = (req, res, json_file, connection) => {
     // Data array, to be inserted into marketingtable
     let newMarketingDataRows = [];
@@ -207,6 +210,7 @@ const insertData = (req, res, json_file, connection) => {
     })
 }
 
+// Export the functions to be used in the routes
 module.exports = {
     marketingData_index,
     marketingData_delete,
