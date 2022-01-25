@@ -2,6 +2,8 @@
 
 https://nanoleaf-challenge.herokuapp.com/
 
+Disclaimer: the website is not responsive, so it's best to view it on a bigger screen instead of a mobile device. 
+
 Don't hesitate to email me at **mdhasan.iqbal@mail.utoronto.ca** if there's any problems or the Heroku site has crashed.
 
 Nanoleaf's take-home assignment for the full stack developer internship. 
