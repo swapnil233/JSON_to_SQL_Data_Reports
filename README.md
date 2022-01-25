@@ -11,10 +11,10 @@ This is a web-app which takes marketing data, sales data and product grids as JS
 # Set Up Procedure on Your Local Machine:
 1. ```npm install``` to install all the dependencies required for the app
 2. Edit the .env file and insert:
-  * DB_HOST
-  * DB_USERNAME
-  * DB_PASSWORD
-  * DB_NAME
+  * DB_HOST="YOUR_DB_HOST"
+  * DB_USERNAME="YOUR_DB_USERNAME"
+  * DB_PASSWORD="YOUR_DB_PASS"
+  * DB_NAME="YOUR_DB_NAME"
 3. Run the ```database_schema (USE THIS).sql``` file on your DB schema. This will create all the required tables.
 4. ```node app.js``` or ```nodemon app.js``` to get the server started on ```localhost:5000```
 
