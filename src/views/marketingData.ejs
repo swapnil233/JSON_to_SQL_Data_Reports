@@ -41,6 +41,7 @@
             <thead>
                 <th>Week</th>
                 <th>Date Created</th>
+                <th>Time Created</th>
                 <th>Website Visitors</th>
                 <th>PR Clippings</th>
             </thead>
@@ -49,7 +50,8 @@
 
             <tr>
                 <td><%= item.week_number %></td>
-                <td><%= item.date_created %></td>
+                <td><%= item.date_created.split(",")[0] %></td>
+                <td><%= item.date_created.split(",")[1] %></td>
                 <td><%= item.web_visitors.toLocaleString() %></td>
                 <td><%= item.pr_clippings.toLocaleString() %></td>
             </tr>
@@ -65,7 +67,6 @@
 
         <script>
             const data = <%- JSON.stringify(marketingData) %>;
-            console.log(data)
 
             let rows = [
                 ["Week", "Date Created", "Time Created", "Website Visitors", "PR Clippings"]
