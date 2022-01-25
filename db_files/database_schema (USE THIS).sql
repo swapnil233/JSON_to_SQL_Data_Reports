@@ -1,14 +1,18 @@
-DROP SCHEMA IF EXISTS heroku_06cf010c9c84850;
-CREATE SCHEMA heroku_06cf010c9c84850;
+-- DROP SCHEMA IF EXISTS heroku_06cf010c9c84850;
+-- CREATE SCHEMA heroku_06cf010c9c84850;
 USE heroku_06cf010c9c84850;
+SET foreign_key_checks = 0;
 
+DROP TABLE IF EXISTS marketingdata;
 CREATE TABLE marketingdata(
-	week_number INT PRIMARY KEY NOT NULL,
-    date_created DATE NOT NULL,
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	week_number INT NOT NULL,
+    date_created VARCHAR(100) NOT NULL,
     web_visitors INT NOT NULL,
     pr_clippings INT NOT NULL
 );
 
+DROP TABLE IF EXISTS salesdata;
 CREATE TABLE salesdata (
   date_created varchar(45) NOT NULL,
   order_name varchar(40) NOT NULL,
@@ -25,9 +29,9 @@ CREATE TABLE salesdata (
   num_payments int(11) NOT NULL,
   PRIMARY KEY (date_created),
   UNIQUE KEY order_name_UNIQUE (order_name)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+);
 
-
+DROP TABLE IF EXISTS product;
 CREATE TABLE product (
 	product_id INT PRIMARY KEY AUTO_INCREMENT,
 	product_name VARCHAR(255),
@@ -47,6 +51,7 @@ CREATE TABLE product (
     last_updated DATE
 );
 
+DROP TABLE IF EXISTS pack_data;
 CREATE TABLE pack_data(
 	pack_id INT PRIMARY KEY AUTO_INCREMENT,
     product_id INT NOT NULL,
@@ -67,6 +72,7 @@ ADD FOREIGN KEY (pack_data)
 REFERENCES pack_data(pack_id) 
 ON DELETE CASCADE;
 
+DROP TABLE IF EXISTS components;
 CREATE TABLE components(
 	components_id INT PRIMARY KEY AUTO_INCREMENT,
     product_id INT,
@@ -82,17 +88,15 @@ ADD FOREIGN KEY (components_id)
 REFERENCES components(components_id)
 ON DELETE CASCADE;
 
+DROP TABLE IF EXISTS metric;
 CREATE TABLE metric(
 	metric_id INT PRIMARY KEY AUTO_INCREMENT,
-    product_id INT,
     lmm FLOAT,
     wmm FLOAT,
     hmm FLOAT,
     gwg FLOAT,
     nwg FLOAT,
-    cbm FLOAT,
-    
-    FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE
+    cbm FLOAT
 );
 
 ALTER TABLE pack_data
@@ -100,17 +104,15 @@ ADD FOREIGN KEY (metric_id)
 REFERENCES metric(metric_id)
 ON DELETE CASCADE;
 
+DROP TABLE IF EXISTS imperial;
 CREATE TABLE imperial(
 	imperial_id INT PRIMARY KEY AUTO_INCREMENT,
-    product_id INT,
     lin FLOAT,
     win FLOAT,
     hin FLOAT,
     gwlb FLOAT,
     nwlb FLOAT,
-    cbft FLOAT,
-    
-    FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE
+    cbft FLOAT
 );
 
 ALTER TABLE pack_data
@@ -118,9 +120,9 @@ ADD FOREIGN KEY (imperial_id)
 REFERENCES imperial(imperial_id)
 ON DELETE CASCADE;
 
+DROP TABLE IF EXISTS price_data;
 CREATE TABLE price_data (
 	price_data_id INT PRIMARY KEY AUTO_INCREMENT,
-    product_id INT NOT NULL,
     buy_bomUSD INT DEFAULT NULL,
     buy_canadaUSD FLOAT DEFAULT NULL,
     buy_franceUSD FLOAT DEFAULT NULL,
@@ -132,9 +134,7 @@ CREATE TABLE price_data (
     sell_AUD FLOAT DEFAULT NULL,
     sell_NZD FLOAT DEFAULT NULL,
     sell_SGD FLOAT DEFAULT NULL,
-    sell_HKD FLOAT DEFAULT NULL,
-    
-    FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE
+    sell_HKD FLOAT DEFAULT NULL
 );
 
 -- Alter the product table to now make price_data a foreign key that references the price_data_id inside price_data table
@@ -142,6 +142,11 @@ ALTER TABLE product
 ADD FOREIGN KEY (price_data) 
 REFERENCES price_data(price_data_id) 
 ON DELETE CASCADE;
+
+
+
+
+
 
 
 
