@@ -71,9 +71,9 @@ const productsData_index = (req, res) => {
         FROM product 
         LEFT JOIN pack_data ON product.product_id = pack_data.product_id
         LEFT JOIN components ON product.product_id = components.product_id 
-        LEFT JOIN metric ON metric.product_id = product.product_id 
-        LEFT JOIN imperial ON imperial.product_id = product.product_id 
-        LEFT JOIN price_data ON price_data.product_id = product.product_id
+        LEFT JOIN metric ON metric.metric_id = product.product_id 
+        LEFT JOIN imperial ON imperial.imperial_id = product.product_id 
+        LEFT JOIN price_data ON price_data.price_data_id = product.product_id
         `
 
         connection.query(query, (err, rows, fields) => {
@@ -96,17 +96,90 @@ const productsData_index = (req, res) => {
 // Deleting data
 const productsData_delete = (req, res) => {
     pool.getConnection((err, connection) => {
-        connection.query('DELETE FROM product', (err, rows, fields) => {
+        connection.query('SELECT * FROM product', (err, rows, fields) => {
             if (err) {
-                console.log(err);
+                console.log(err)
                 return res.send(err);
             }
 
-            console.log("Deleted all data from product table & released connection.");
-            connection.release();
+            // If product table has data in it, delete it and insert new data.
+            if (rows.length > 0) {
+                console.log("There is already data in the database. Deleting it now...");
 
-            res.redirect("/productsData");
-        });
+                // Delete all the data in productsData table
+                connection.query(`
+                SET foreign_key_checks = 0;
+                DELETE FROM product;`);
+
+                connection.query(`CREATE TABLE product (product_id INT PRIMARY KEY AUTO_INCREMENT, product_name VARCHAR(255), barcode VARCHAR(255) NOT NULL, parent_sku VARCHAR(255), region_code INT NOT NULL, item_type VARCHAR(40) NOT NULL, supplier VARCHAR(40) NOT NULL, brand VARCHAR(40) NOT NULL, pack_data INT, price_data INT, variant_name VARCHAR(255) NOT NULL, short_description TEXT NOT NULL, stock_link VARCHAR(255) NOT NULL, last_updated DATE);`);
+
+                connection.query(`CREATE TABLE pack_data(pack_id INT PRIMARY KEY AUTO_INCREMENT, product_id INT NOT NULL, pack_type VARCHAR(40), components_id INT, metric_id INT, imperial_id INT, FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE);`);
+
+                connection.query(`ALTER TABLE product ADD FOREIGN KEY (pack_data) REFERENCES pack_data(pack_id) ON DELETE CASCADE;`)
+
+                connection.query("DROP TABLE IF EXISTS components;")
+
+                connection.query(`CREATE TABLE components(components_id INT PRIMARY KEY AUTO_INCREMENT, product_id INT, component_name VARCHAR(50) NOT NULL, amount INT NOT NULL, FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE);`);
+
+                connection.query(`ALTER TABLE pack_data ADD FOREIGN KEY (components_id) REFERENCES components(components_id) ON DELETE CASCADE;`);
+
+                connection.query(`DROP TABLE IF EXISTS metric;`)
+
+                connection.query(`CREATE TABLE metric(metric_id INT PRIMARY KEY AUTO_INCREMENT, lmm FLOAT, wmm FLOAT, hmm FLOAT, gwg FLOAT, nwg FLOAT, cbm FLOAT);`)
+
+                connection.query(`ALTER TABLE pack_data
+                ADD FOREIGN KEY (metric_id)
+                REFERENCES metric(metric_id)
+                ON DELETE CASCADE;`)
+
+                connection.query(`DROP TABLE IF EXISTS imperial;`)
+
+                connection.query(`CREATE TABLE imperial(
+                    imperial_id INT PRIMARY KEY AUTO_INCREMENT,
+                    lin FLOAT,
+                    win FLOAT,
+                    hin FLOAT,
+                    gwlb FLOAT,
+                    nwlb FLOAT,
+                    cbft FLOAT
+                );`);
+
+                connection.query(`ALTER TABLE pack_data
+                ADD FOREIGN KEY (imperial_id)
+                REFERENCES imperial(imperial_id)
+                ON DELETE CASCADE;`)
+
+                connection.query(`DROP TABLE IF EXISTS price_data;`)
+
+                connection.query(`CREATE TABLE price_data (
+                    price_data_id INT PRIMARY KEY AUTO_INCREMENT,
+                    buy_bomUSD INT DEFAULT NULL,
+                    buy_canadaUSD FLOAT DEFAULT NULL,
+                    buy_franceUSD FLOAT DEFAULT NULL,
+                    buy_hongkongUSD FLOAT DEFAULT NULL,
+                    sell_CAD FLOAT DEFAULT NULL,
+                    sell_USD FLOAT DEFAULT NULL,
+                    sell_GBP FLOAT DEFAULT NULL,
+                    sell_EUR FLOAT DEFAULT NULL,
+                    sell_AUD FLOAT DEFAULT NULL,
+                    sell_NZD FLOAT DEFAULT NULL,
+                    sell_SGD FLOAT DEFAULT NULL,
+                    sell_HKD FLOAT DEFAULT NULL
+                );`)
+
+                connection.query(`ALTER TABLE product
+                ADD FOREIGN KEY (price_data) 
+                REFERENCES price_data(price_data_id) 
+                ON DELETE CASCADE;`)
+
+                res.redirect("/productsData");
+
+                // If the productsData table is already empty
+            } else {
+                res.send("Data is already empty");
+            }
+        })
+
     });
 }
 
@@ -170,39 +243,93 @@ const productsData_insertNew = (req, res) => {
     if (json_file.productSKU) {
         console.log("Correctly formatted marketing data file")
     } else {
-        return res.send("The marketing data JSON file uploaded is not in the correct format")
+        return res.send("Only products data files are accepted. Please go back and upload a valid JSON file.")
     }
 
+    // Once all validation is done, insert the data
     pool.getConnection((err, connection) => {
         if (err) {
             console.log(err)
-            connection.release();
-            console.log("Error connecting to the DB. Connection released.")
             return res.send(err);
         }
 
-        connection.query('SELECT * FROM productsData', (err, rows, fields) => {
+        connection.query('SELECT * FROM product', (err, rows, fields) => {
             if (err) {
                 console.log(err)
-                connection.release();
-                console.log("Error connecting to the DB. Connection released.")
                 return res.send(err);
             }
 
-            // If productsData table has data in it, delete it and insert new data.
+            // If product table has data in it, delete it and insert new data.
             if (rows.length > 0) {
                 console.log("There is already data in the database. Deleting it now...");
 
                 // Delete all the data in productsData table
-                connection.query('DELETE FROM productsData', (err, rows, fields) => {
-                    if (err) {
-                        console.log(err)
-                        connection.release();
-                        console.log("Error connecting to the DB. Connection released.")
-                        return res.send(err);
-                    }
-                });
-                insertData(req, res, json_file, connection)
+                connection.query(`
+                SET foreign_key_checks = 0;
+                DELETE FROM product;`);
+
+                connection.query(`CREATE TABLE product (product_id INT PRIMARY KEY AUTO_INCREMENT, product_name VARCHAR(255), barcode VARCHAR(255) NOT NULL, parent_sku VARCHAR(255), region_code INT NOT NULL, item_type VARCHAR(40) NOT NULL, supplier VARCHAR(40) NOT NULL, brand VARCHAR(40) NOT NULL, pack_data INT, price_data INT, variant_name VARCHAR(255) NOT NULL, short_description TEXT NOT NULL, stock_link VARCHAR(255) NOT NULL, last_updated DATE);`);
+
+                connection.query(`CREATE TABLE pack_data(pack_id INT PRIMARY KEY AUTO_INCREMENT, product_id INT NOT NULL, pack_type VARCHAR(40), components_id INT, metric_id INT, imperial_id INT, FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE);`);
+
+                connection.query(`ALTER TABLE product ADD FOREIGN KEY (pack_data) REFERENCES pack_data(pack_id) ON DELETE CASCADE;`)
+
+                connection.query("DROP TABLE IF EXISTS components;")
+
+                connection.query(`CREATE TABLE components(components_id INT PRIMARY KEY AUTO_INCREMENT, product_id INT, component_name VARCHAR(50) NOT NULL, amount INT NOT NULL, FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE);`);
+
+                connection.query(`ALTER TABLE pack_data ADD FOREIGN KEY (components_id) REFERENCES components(components_id) ON DELETE CASCADE;`);
+
+                connection.query(`DROP TABLE IF EXISTS metric;`)
+
+                connection.query(`CREATE TABLE metric(metric_id INT PRIMARY KEY AUTO_INCREMENT, lmm FLOAT, wmm FLOAT, hmm FLOAT, gwg FLOAT, nwg FLOAT, cbm FLOAT);`)
+
+                connection.query(`ALTER TABLE pack_data
+                ADD FOREIGN KEY (metric_id)
+                REFERENCES metric(metric_id)
+                ON DELETE CASCADE;`)
+
+                connection.query(`DROP TABLE IF EXISTS imperial;`)
+
+                connection.query(`CREATE TABLE imperial(
+                    imperial_id INT PRIMARY KEY AUTO_INCREMENT,
+                    lin FLOAT,
+                    win FLOAT,
+                    hin FLOAT,
+                    gwlb FLOAT,
+                    nwlb FLOAT,
+                    cbft FLOAT
+                );`);
+
+                connection.query(`ALTER TABLE pack_data
+                ADD FOREIGN KEY (imperial_id)
+                REFERENCES imperial(imperial_id)
+                ON DELETE CASCADE;`)
+
+                connection.query(`DROP TABLE IF EXISTS price_data;`)
+
+                connection.query(`CREATE TABLE price_data (
+                    price_data_id INT PRIMARY KEY AUTO_INCREMENT,
+                    buy_bomUSD INT DEFAULT NULL,
+                    buy_canadaUSD FLOAT DEFAULT NULL,
+                    buy_franceUSD FLOAT DEFAULT NULL,
+                    buy_hongkongUSD FLOAT DEFAULT NULL,
+                    sell_CAD FLOAT DEFAULT NULL,
+                    sell_USD FLOAT DEFAULT NULL,
+                    sell_GBP FLOAT DEFAULT NULL,
+                    sell_EUR FLOAT DEFAULT NULL,
+                    sell_AUD FLOAT DEFAULT NULL,
+                    sell_NZD FLOAT DEFAULT NULL,
+                    sell_SGD FLOAT DEFAULT NULL,
+                    sell_HKD FLOAT DEFAULT NULL
+                );`)
+
+                connection.query(`ALTER TABLE product
+                ADD FOREIGN KEY (price_data) 
+                REFERENCES price_data(price_data_id) 
+                ON DELETE CASCADE;`)
+
+                insertData(req, res, json_file, connection);
 
                 // If the productsData table is already empty
             } else {
@@ -233,7 +360,7 @@ const insertData = (req, res, json_file, connection) => {
         const stock_link = json_file.productSKU[product].stocklink;
         const last_updated = json_file.productSKU[product].lastUpdated;
 
-        // Query to insert product info into the "product" table
+        // Insert product data
         const insert_product = `INSERT INTO product VALUES (
             NULL, -- auto incremented id
             "${product_name}", -- product_name
@@ -251,14 +378,13 @@ const insertData = (req, res, json_file, connection) => {
             "${last_updated}" -- last_updated
         )`;
 
-        // Execute the query
         connection.query(insert_product, (err, result) => {
             if (err) {
                 res.send(err);
             }
         });
 
-        // Query to insert pack_data
+        // Insert pack data
         const insert_pack_data = `INSERT INTO pack_data VALUES (
             NULL, -- pack_id
             LAST_INSERT_ID(), -- product_id
@@ -268,32 +394,29 @@ const insertData = (req, res, json_file, connection) => {
             NULL -- imperial_id FOREIGN KEY
         )`;
 
-        // Execute the query
         connection.query(insert_pack_data, (err, result) => {
             if (err) {
                 res.send(err);
             }
         });
 
-        // Update the product table
+        // Update the product table to include the pack_id
         const update_product = `UPDATE product SET pack_data = LAST_INSERT_ID() WHERE product_id = LAST_INSERT_ID()`;
-
-        // Execute the query
         connection.query(update_product, (err, result) => {
             if (err) {
                 res.send(err);
             }
         });
 
+        // Insert components data
         const components_array = json_file.productSKU[product].packData.components;
-
         components_array.forEach(component => {
             const component_name = component.split("::")[0];
             const component_quantity = parseInt(component.split("::")[1])
 
             const insert_components = `INSERT INTO components VALUES (
                 NULL, -- components_id
-                LAST_INSERT_ID(), -- pack_id FOREIGN KEY
+                LAST_INSERT_ID(), -- product_id
                 "${component_name}", -- component_name
                 ${component_quantity} -- component_quantity
             )`;
@@ -311,10 +434,9 @@ const insertData = (req, res, json_file, connection) => {
             }
         });
 
-        // Query to insert metric
+        // Insert metric data
         const insert_metric = `INSERT INTO metric VALUES (
-            NULL,
-            LAST_INSERT_ID(),
+            NULL, -- metric_id
             ${json_file.productSKU[product].packData.Metric.LMM}, -- LMM
             ${json_file.productSKU[product].packData.Metric.WMM}, -- WMM
             ${json_file.productSKU[product].packData.Metric.HMM}, -- HMM
@@ -343,7 +465,6 @@ const insertData = (req, res, json_file, connection) => {
         // Query to insert imperial
         const insert_imperial = `INSERT INTO imperial VALUES (
             NULL, -- imperial_id
-            LAST_INSERT_ID(),
             ${json_file.productSKU[product].packData.Imperial.LIN}, -- LIN
             ${json_file.productSKU[product].packData.Imperial.WIN}, -- WIN
             ${json_file.productSKU[product].packData.Imperial.HIN}, -- HIN
@@ -371,6 +492,7 @@ const insertData = (req, res, json_file, connection) => {
 
         // Query to insert price_data
         const possibleSellRegions = ["CAD", "USD", "GBP", "EUR", "AUD", "NZD", "SGD", "HKD"];
+
         possibleSellRegions.forEach(region => {
             if (json_file.productSKU[product].priceData.Sell[region] === undefined) {
                 json_file.productSKU[product].priceData.Sell[region] = null;
@@ -378,8 +500,7 @@ const insertData = (req, res, json_file, connection) => {
         });
 
         const insert_price_data = `INSERT INTO price_data VALUES (
-            NULL,
-            LAST_INSERT_ID(), -- product_id
+            NULL, -- price_data_id
             ${json_file.productSKU[product].priceData.Buy.BOMUSD}, -- buy_bomUSD
             ${json_file.productSKU[product].priceData.Buy.buyCanadaUSD}, -- buy_canadaUSD
             ${json_file.productSKU[product].priceData.Buy.buyFranceUSD}, -- buy_franceUSD
@@ -410,7 +531,7 @@ const insertData = (req, res, json_file, connection) => {
         });
     })
 
-    // res.redirect("/")
+    res.redirect("/");
 }
 
 module.exports = {
