@@ -1,20 +1,26 @@
 # Nanoleaf_Challenge
-Nanoleaf's take-home assignment for the full stack developer internship.
 
-#TODO:
+https://nanoleaf-challenge.herokuapp.com/
 
-1. Store the data of the 3 JSON files in a SQL database
-2. Create web-app that takes in JSON data with the same structure as the ones given, and stores them in the SQL DB
-3. BONUS: The web-app should show errors that occur during data ingestion
+Nanoleaf's take-home assignment for the full stack developer internship. 
 
-4. Using the SQL database & an OS graphing library (chart.js?), make a UI that reports data over time of:
-    a. Sales revenue
-    b. # Items sold
-    c. # Orders placed
-    d. # Fulfillments
-    e. # Website visitors
+This is a web-app which takes marketing data, sales data and product grids as JSON files, parses them, stores the data inside an SQL server and displays the results to the user, along with charts when appropriate. 
 
-5. BONUS: download the report as a csv
-6. BONUS: allow user to customize data view in the UI
-7. BONUS: increased granularity of data (??)
-    
+# Lessons Learned:
+1. Finally learned how to use and work with SQL! Will be using SQL for my next project, to extend my knowledge.
+2. Learned how to handle files uploaded by user.
+3. Learned how to create downloadable CSV files using data sent from the server.
+
+# Technologies used:
+1. HTML using EJS as the templating engine
+2. CSS
+3. JavaScript(Node + Express) for the server and back-end
+4. Chart.js to graph data
+5. MySQL
+6. MySQL workbench for testing out the DB
+7. ClearDB - Database
+8. Heroku for hosting/serving the server
+
+# Known Problems:
+1. If a product has multiple components, only the first one gets put into DB after the first time the data is uploaded.
+2. Server might crash if changes made quickly in products page.
