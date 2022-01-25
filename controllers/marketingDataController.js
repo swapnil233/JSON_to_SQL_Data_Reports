@@ -179,24 +179,24 @@ const insertData = (req, res, json_file, connection) => {
     let newMarketingDataRows = [];
     
     // Loop through the json file and insert each week's data into the database
+    let auto_increment = 0;
     Object.keys(json_file.marketingData).forEach(key => {
         const weekNumber = parseInt(key.split("week")[1]);
         const dateCreated = new Date(json_file.marketingData[key].dateCreated).toLocaleString();
         const webVisitors = json_file.marketingData[key].webVisitors;
         const prClippings = json_file.marketingData[key].prClippings;
-
-        newMarketingDataRows.push([weekNumber, dateCreated, webVisitors, prClippings]);
+        auto_increment++;
+        
+        newMarketingDataRows.push([auto_increment, weekNumber, dateCreated, webVisitors, prClippings]);
     });
 
     // Insert into table
-    const sql = "INSERT INTO marketingdata (week_number, date_created, web_visitors, pr_clippings) VALUES ?";
+    const sql = "INSERT INTO marketingdata (id, week_number, date_created, web_visitors, pr_clippings) VALUES ?";
 
     connection.query(sql, [newMarketingDataRows], (error, results, fields) => {
         if (error) {
-            console.log(err)
-            connection.release();
-            console.log("Error connecting to the DB. Connection released.")
-            return res.send(err);
+            console.log(error)
+            return res.send(error);
         }
     }).on("end", () => {
         console.log("Finished inserting the given data into marketingdata table.");
