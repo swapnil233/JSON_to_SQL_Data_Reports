@@ -18,26 +18,28 @@
         </div>
     </nav>
 
-    <!-- Delete  -->
-    <form action="marketingData/delete_original" method="POST">
-        <input type="submit" value="clear">
-    </form>
-
-    <!-- Re-insert -->
-    <form action="marketingData/insert_original" method="POST">
-        <input type="submit" value="Insert Original Data">
-    </form>
-
-    <!-- Upload -->
-    <form action="marketingData/upload" method="POST" enctype="multipart/form-data">
-        <input type="file" id="myFile" name="marketingDataJSON" value="Upload JSON">
-        <input type="submit">
-    </form>
-
     <!-- Container for Table and Chart -->
     <div class="container">
+        <div class="buttons-container">
+            <!-- Delete  -->
+            <form action="marketingData/delete_original" method="POST">
+                <input type="submit" value="clear">
+            </form>
+
+            <!-- Re-insert -->
+            <form action="marketingData/insert_original" method="POST">
+                <input type="submit" value="Insert Original Data">
+            </form>
+
+            <!-- Upload -->
+            <form action="marketingData/upload" method="POST" enctype="multipart/form-data">
+                <input type="file" id="myFile" name="marketingDataJSON" value="Upload JSON">
+                <input type="submit">
+            </form>
+        </div>
+
         <!-- Table -->
-        <table class="marketing_table" cellspacing="0">
+        <table cellspacing="0">
             <thead>
                 <th>Week</th>
                 <th>Date Created</th>
@@ -62,7 +64,7 @@
         <!-- Chart -->
         <div class="chart-container">
             <canvas id="myChart"></canvas>
-            <a id="csv_download" href="#">Download as CSV</a>
+            <a class="download-link" id="csv_download" href="#">Download as CSV</a>
         </div>
 
         <script>

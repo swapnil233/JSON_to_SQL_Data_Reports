@@ -17,26 +17,29 @@
         </div>
     </nav>
 
-    <!-- Delete  -->
-    <form action="salesData/delete_original" method="POST">
-        <input type="submit" value="clear">
-    </form>
-
-    <!-- Re-insert -->
-    <form action="salesData/insert_original" method="POST">
-        <input type="submit" value="Insert Original Data">
-    </form>
-
-    <!-- Upload -->
-    <form action="salesData/upload" method="POST" enctype="multipart/form-data">
-        <input type="file" id="myFile" name="salesDataJSON" value="Upload JSON">
-        <input type="submit">
-    </form>
-
     <!-- Container for Table and Chart -->
     <div class="container">
+
+        <div class="buttons-container">
+            <!-- Delete  -->
+            <form action="salesData/delete_original" method="POST">
+                <input type="submit" value="clear">
+            </form>
+
+            <!-- Re-insert -->
+            <form action="salesData/insert_original" method="POST">
+                <input type="submit" value="Insert Original Data">
+            </form>
+
+            <!-- Upload -->
+            <form action="salesData/upload" method="POST" enctype="multipart/form-data">
+                <input type="file" id="myFile" name="salesDataJSON" value="Upload JSON">
+                <input type="submit">
+            </form>
+        </div>
+
         <!-- Table -->
-        <table class="marketing_table" cellspacing="0">
+        <table cellspacing="0">
             <thead>
                 <th>Order Name</th>
                 <th>Date</th>
@@ -75,11 +78,11 @@
         <!-- Chart -->
         <div class="chart-container">
             <canvas id="myChart"></canvas>
-            <a id="csv_download" href="#">Download as CSV</a>
-            <a id="items_time" href="#">View Number of Items Sold Over Time</a>
-            <a id="orders_time" href="#">View Number of Orders Placed Over Time</a>
-            <a id="fulfillments_time" href="#">View Number of Fulfillments Over Time</a>
-            <a id="all_data" href="#">View All</a>
+            <a class="download-link" id="csv_download" href="#">Download as CSV</a>
+            <a class="download-link" id="items_time" href="#">View Number of Items Sold Over Time</a>
+            <a class="download-link" id="orders_time" href="#">View Number of Orders Placed Over Time</a>
+            <a class="download-link" id="fulfillments_time" href="#">View Number of Fulfillments Over Time</a>
+            <a class="download-link" id="all_data" href="#">View All</a>
         </div>
 
         <script>

@@ -136,44 +136,46 @@ body {
 }
 
 .container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-        "."
-        ".";
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 20px 0px;
 }
 
 table {
     border-collapse: collapse;
     border-spacing: 0;
     max-width: 1300px;
-    margin: 0 auto;
+    margin: 0 auto 20px auto;
+    width: 100%;
 }
 
-.marketing_table {
-    min-width: 400px;
-}
-
-th {
-    border-collapse: collapse;
-    background-color: #3fae29;
-}
-
-tr:nth-of-type(even) {
-    background-color: rgb(224, 224, 224);
+tr {
+    border: 1px solid #ddd;
 }
 
 td,
 th {
     text-align: left;
-    padding: 5px 10px;
+    padding: 13px 20px;
+}
+
+th {
+    border-collapse: collapse;
+    background-color: #3fae29;
+    font-weight: bold;
 }
 
 .chart-container {
-    padding: 0 0 0 50px;
     width: 100%;
     height: 100%;
     max-width: 1300px;
@@ -226,23 +228,51 @@ nav ul li a {
     border-bottom: 2px solid #3fae29;
 }
 
+input[type=submit] {
+    background-color: #3fae29;
+    border: none;
+    color: black;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+input[type=file] {
+    border: none;
+    color: black;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+.download-link {
+    background-color: #3fae29;
+    border: none;
+    color: black;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0;
+    cursor: pointer;
+    text-decoration: none;
+    margin: 20px 0px;
+    border-radius: 2px;
+}
+
 @media screen and (max-width: 600px) {
-    .container {
-        display: grid;
-        grid-template-columns: 1.3fr;
-        grid-template-rows: 1fr 1fr;
-        gap: 0px 0px;
-        grid-auto-flow: row;
-        grid-template-areas:
-            "."
-            ".";
-        width: 100%;
-        height: 100%;
-    }
-
-
     .marketing_table {
         min-width: 100%;
     }
-
 }
